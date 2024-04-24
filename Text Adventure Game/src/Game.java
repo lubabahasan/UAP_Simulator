@@ -12,15 +12,19 @@ public class Game {
     JLabel titleText;
     JTextArea storyText;
     
-    Font titleFont = new Font("Impact", Font.PLAIN, 90);
-    Font buttonFont = new Font("Garamond", Font.PLAIN, 30);
-    Font normalFont = new Font("Calisto MT", Font.PLAIN, 40);
+    Dimension size = Toolkit.getDefaultToolkit().getScreenSize(); 
+    int width = (int)size.getWidth(); 
+    int height = (int)size.getHeight();
+    
+    Font titleFont = new Font("Impact", Font.PLAIN, (int)Math.ceil(height/9.6));
+    Font buttonFont = new Font("Garamond", Font.PLAIN, (int)Math.ceil(height/28.8));
+    Font normalFont = new Font("Calisto MT", Font.PLAIN, (int)Math.ceil(height/21.6));
     
     MainScreenHandler actionHandler = new MainScreenHandler();
     
     public static void main(String[] args) {
         
-        new Player();
+        //new Player();
         new Game();
     }
     
@@ -36,7 +40,7 @@ public class Game {
         
         //title panel
         titlePanel = new JPanel(); //new panel
-        titlePanel.setBounds(320, 200, 900, 120); //panel resolution
+        titlePanel.setBounds((int)Math.ceil(width/4.8), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.71), (int)Math.ceil(height/7.2)); //panel resolution
         titlePanel.setBackground(Color.decode("#a70c70")); //panel background colour
         
         //title text
@@ -46,7 +50,7 @@ public class Game {
         
         //start button panel
         startButtonPanel = new JPanel();
-        startButtonPanel.setBounds(590, 400, 310, 90);
+        startButtonPanel.setBounds((int)Math.ceil(width/2.6), (int)Math.ceil(height/2.16), (int)Math.ceil(width/4.9548), (int)Math.ceil(height/7.2));
         startButtonPanel.setBackground(Color.decode("#280a68"));
         
         //start button
@@ -54,7 +58,7 @@ public class Game {
         startButton.setBackground(Color.decode("#280a68"));
         startButton.setForeground(Color.white);
         startButton.setFont(buttonFont);
-        startButton.setPreferredSize(new Dimension(300, 80));
+        startButton.setPreferredSize(new Dimension((int)Math.ceil(width/5.12), (int)Math.ceil(height/10.8)));
         startButton.addActionListener(actionHandler);
         
         //Adding Labels to Panels
@@ -72,12 +76,21 @@ public class Game {
         titlePanel.setVisible(false);
         startButtonPanel.setVisible(false);
         
+        //Setting story screen dimension
         storyPanel = new JPanel();
-        storyPanel.setBounds(320, 200, 900, 200);
+        storyPanel.setBounds((int)Math.ceil(width/4.8), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.71), (int)Math.ceil(height/4.32));
         storyPanel.setBackground(Color.decode("#280a68"));
         
+        //Choice panel
+        choicePanel = new JPanel();
+        choicePanel.setBounds((int)Math.ceil(width/2.8981), (int)Math.ceil(height/2.16), (int)Math.ceil(width/3.072), (int)Math.ceil(height/2.88));
+        choicePanel.setBackground(Color.blue);
+        choicePanel.setLayout(new GridLayout(4,1));
+        container.add(choicePanel);
+        
+        //Stage 1
         storyText = new JTextArea("Welcome to UAP, dear "+"Lubaba"+". Make wise choices and enjoy your journey. Good Luck!");
-        storyText.setBounds(320, 200, 900, 200);
+        storyText.setBounds((int)Math.ceil(width/4.8), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.71), (int)Math.ceil(height/4.32));
         storyText.setBackground(Color.decode("#280a68"));
         storyText.setForeground(Color.white);
         storyText.setFont(normalFont);
@@ -85,13 +98,6 @@ public class Game {
         
         storyPanel.add(storyText);
         container.add(storyPanel);
-        
-        //Choice buttons
-        choicePanel = new JPanel();
-        choicePanel.setBounds(530, 400, 500, 300);
-        choicePanel.setBackground(Color.blue);
-        choicePanel.setLayout(new GridLayout(4,1));
-        container.add(choicePanel);
         
         //Choices
 //        choice1 = new JButton("Attend Class");
@@ -110,8 +116,5 @@ public class Game {
             
         }
     }
-    
-    
-   
     
 }
