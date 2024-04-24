@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.util.*;
 
 public class Game {
     
@@ -18,7 +17,10 @@ public class Game {
     
     Font titleFont = new Font("Impact", Font.PLAIN, (int)Math.ceil(height/9.6));
     Font buttonFont = new Font("Garamond", Font.PLAIN, (int)Math.ceil(height/28.8));
-    Font normalFont = new Font("Calisto MT", Font.PLAIN, (int)Math.ceil(height/21.6));
+    Font normalFont = new Font("Calisto MT", Font.PLAIN, (int)Math.ceil(height/23));
+    
+    String text;
+    int i = 0;
     
     MainScreenHandler actionHandler = new MainScreenHandler();
     
@@ -71,14 +73,31 @@ public class Game {
         
     }
     
+    Timer timer = new Timer(10, new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            char character[] = text.toCharArray();
+            int arrayLen = character.length;
+
+            String s = String.valueOf(character[i]);
+            storyText.append(s);
+            i++;
+
+            if(i == arrayLen){
+                i = 0;
+                timer.stop();
+            }
+        }
+    });
+    
     public void createGameScreen(){
         
         titlePanel.setVisible(false);
         startButtonPanel.setVisible(false);
         
-        //Setting story screen dimension
+        //Story Panel
         storyPanel = new JPanel();
-        storyPanel.setBounds((int)Math.ceil(width/4.8), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.71), (int)Math.ceil(height/4.32));
+        storyPanel.setBounds((int)Math.ceil(width/7.2), (int)Math.ceil(height/5.0), (int)Math.ceil(width/1.3), (int)Math.ceil(height/4.32));
         storyPanel.setBackground(Color.decode("#280a68"));
         
         //Choice panel
@@ -88,16 +107,21 @@ public class Game {
         choicePanel.setLayout(new GridLayout(4,1));
         container.add(choicePanel);
         
-        //Stage 1
-        storyText = new JTextArea("Welcome to UAP, dear "+"Lubaba"+". Make wise choices and enjoy your journey. Good Luck!");
-        storyText.setBounds((int)Math.ceil(width/4.8), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.71), (int)Math.ceil(height/4.32));
+    }
+    
+    public void stage1(){
+        //Body
+        text = "You are a new student at the University of Asia Pacific, eager to explore the opportunities that lie ahead. Make wise choices as you have limited time to balance academics, extracurricular activities, and personal growth. Good Luck!";
+        storyText = new JTextArea();
+        storyText.setBounds((int)Math.ceil(width/7.2), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.3), (int)Math.ceil(height/4.32));
         storyText.setBackground(Color.decode("#280a68"));
         storyText.setForeground(Color.white);
         storyText.setFont(normalFont);
         storyText.setLineWrap(true);
-        
+        storyText.setWrapStyleWord(true);
         storyPanel.add(storyText);
         container.add(storyPanel);
+        timer.start();
         
         //Choices
 //        choice1 = new JButton("Attend Class");
@@ -113,7 +137,7 @@ public class Game {
         public void actionPerformed(ActionEvent event){
             
             createGameScreen();
-            
+            stage1();
         }
     }
     
