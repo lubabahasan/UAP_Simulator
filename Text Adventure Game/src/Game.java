@@ -3,42 +3,44 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class Game {
-    
+   
     Container container;
-    JFrame window;
-    JPanel titlePanel, startButtonPanel, storyPanel, choicePanel, inputPanel, inputTextPanel;
-    JButton startButton, choice1, choice2, choice3, choice4;
+    JFrame mainWindow;
+    JPanel titlePanel, startButtonPanel, storyPanel, choicePanel, inputTextPanel, inputPanel;
+    JButton startButton, enter, choice1, choice2, choice3, choice4;
     JLabel titleText;
     JTextArea storyText, inputText;
-    
+    JTextField inputField;
+
     Dimension size = Toolkit.getDefaultToolkit().getScreenSize(); 
     int width = (int)size.getWidth(); 
     int height = (int)size.getHeight();
-    
+
     Font titleFont = new Font("Impact", Font.PLAIN, (int)Math.ceil(height/9.6));
     Font buttonFont = new Font("Garamond", Font.PLAIN, (int)Math.ceil(height/28.8));
     Font normalFont = new Font("Calisto MT", Font.PLAIN, (int)Math.ceil(height/23));
-    
-    String text;
+
+    static String text, studentName;
     int i = 0;
     
     MainScreenHandler actionHandler = new MainScreenHandler();
+    InputHandler inputHandler = new InputHandler();
     
     public static void main(String[] args) {
-        
-        //new Player();
         new Game();
+        Student student = new Student();
+        student.setName(studentName);
     }
     
     public Game(){
         
-        window = new JFrame();
-        window.setExtendedState(JFrame.MAXIMIZED_BOTH); //fullscreen
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exits program by closing the window
-        window.getContentPane().setBackground(Color.decode("#280a68")); //sets background colour
-        window.setLayout(null); //for custom layout
-        window.setVisible(true); //make it appear on screen
-        container = window.getContentPane(); //for title screen
+        mainWindow = new JFrame();
+        mainWindow.setExtendedState(JFrame.MAXIMIZED_BOTH); //fullscreen
+        mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exits program by closing the window
+        mainWindow.getContentPane().setBackground(Color.decode("#280a68")); //sets background colour
+        mainWindow.setLayout(null); //for custom layout
+        mainWindow.setVisible(true); //make it appear on screen
+        container = mainWindow.getContentPane(); //for title screen
         
         //title panel
         titlePanel = new JPanel(); //new panel
@@ -73,31 +75,89 @@ public class Game {
         
     }
     
-    Timer timer = new Timer(10, new ActionListener(){
+    Timer timer1 = new Timer(10, new ActionListener(){
         @Override
         public void actionPerformed(ActionEvent e) {
             char character[] = text.toCharArray();
             int arrayLen = character.length;
-
             String s = String.valueOf(character[i]);
-            storyText.append(s);
+            inputText.append(s);
             i++;
-
             if(i == arrayLen){
                 i = 0;
-                timer.stop();
+                timer1.stop();
             }
         }
     });
     
-    public void createGameScreen(){
-        
+    Timer timer2 = new Timer(10, new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            char character[] = text.toCharArray();
+            int arrayLen = character.length;
+            String s = String.valueOf(character[i]);
+            storyText.append(s);
+            i++;
+            if(i == arrayLen){
+                i = 0;
+                timer2.stop();
+            }
+        }
+    });
+    
+    public void stage1(){
         titlePanel.setVisible(false);
         startButtonPanel.setVisible(false);
+       
+        //Input Text Panel
+        inputTextPanel = new JPanel();
+        inputTextPanel.setBounds((int)Math.ceil(width/7.2), (int)Math.ceil(height/5.0), (int)Math.ceil(width/1.3), (int)Math.ceil(height/4.32));
+        inputTextPanel.setBackground(Color.decode("#280a68"));
+        
+        //Input Text
+        text = "Please enter your name: ";
+        inputText = new JTextArea();
+        inputText.setBounds((int)Math.ceil(width/7.2), (int)Math.ceil(height/5.0), (int)Math.ceil(width/1.3), (int)Math.ceil(height/4.32));
+        inputText.setBackground(Color.decode("#280a68"));
+        inputText.setForeground(Color.white);
+        inputText.setFont(normalFont);
+        inputText.setLineWrap(true);
+        inputText.setWrapStyleWord(true);
+        inputTextPanel.add(inputText);
+        container.add(inputTextPanel);
+        timer1.start();
+        
+        //Input Panel
+        inputPanel = new JPanel();
+        inputPanel.setBounds((int)Math.ceil(width/5.1), (int)Math.ceil(height/2.16), (int)Math.ceil(width/1.6), (int)Math.ceil(height/10.8));
+        inputPanel.setBackground(Color.black);
+        inputPanel.setLayout(new GridLayout(1,2));
+        
+        //Input Field
+        inputField = new JTextField();
+        inputField.setFont(normalFont);
+        inputField.setHorizontalAlignment(JTextField.CENTER);
+        inputPanel.add(inputField);
+        
+        //Enter Button
+        enter = new JButton("E N T E R");
+        //enter.setBackground(Color.decode("#280a68"));
+        enter.setForeground(Color.black);
+        enter.setFont(buttonFont);
+        enter.addActionListener(inputHandler);
+
+        
+        inputPanel.add(enter);
+        container.add(inputPanel);
+    }
+    
+    public void stage2(){
+        inputTextPanel.setVisible(false);
+        inputPanel.setVisible(false);
         
         //Story Panel
         storyPanel = new JPanel();
-        storyPanel.setBounds((int)Math.ceil(width/7.2), (int)Math.ceil(height/5.0), (int)Math.ceil(width/1.3), (int)Math.ceil(height/4.32));
+        storyPanel.setBounds((int)Math.ceil(width/7.2), (int)Math.ceil(height/5.0), (int)Math.ceil(width/1.3), (int)Math.ceil(height/3.9));
         storyPanel.setBackground(Color.decode("#280a68"));
         
         //Choice panel
@@ -107,13 +167,10 @@ public class Game {
 //        choicePanel.setLayout(new GridLayout(4,1));
 //        container.add(choicePanel);
         
-    }
-    
-    public void stage1(){
         //Body
-        text = "You are a new student at the University of Asia Pacific, eager to explore the opportunities that lie ahead. Make wise choices as you have limited time to balance academics, extracurricular activities, and personal growth. Good Luck!";
+        text = "Welcome " + studentName + "! You are a new student at the University of Asia Pacific. Explore the opportunities that lie ahead, and make wise choices as you have limited time to balance academics, extracurricular activities, and personal growth. Good Luck!";
         storyText = new JTextArea();
-        storyText.setBounds((int)Math.ceil(width/7.2), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.3), (int)Math.ceil(height/4.32));
+        storyText.setBounds((int)Math.ceil(width/7.2), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.3), (int)Math.ceil(height/3.9));
         storyText.setBackground(Color.decode("#280a68"));
         storyText.setForeground(Color.white);
         storyText.setFont(normalFont);
@@ -121,38 +178,9 @@ public class Game {
         storyText.setWrapStyleWord(true);
         storyPanel.add(storyText);
         container.add(storyPanel);
-        timer.start();
+        timer2.start();
         
-        //For Input
-        window.getContentPane().setBackground(Color.decode("#280a68"));
-        container = window.getContentPane();
         
-        //Input Text Panel
-//        inputTextPanel = new JPanel();
-//        inputTextPanel.setBounds((int)Math.ceil(width/2.8981), (int)Math.ceil(height/2.16), (int)Math.ceil(width/3.072), (int)Math.ceil(height/2.88));
-//        inputTextPanel.setBackground(Color.decode("#280a68"));
-//        
-//        inputText = new JLabel("Please enter your name: ");
-//        inputText.setForeground(Color.white);
-//        inputText.setFont(normalFont);
-//        inputTextPanel.add(inputText);
-//        container.add(inputTextPanel);
-        
-        text = "Please enter your name: ";
-        inputText = new JTextArea();
-        inputText.setBounds((int)Math.ceil(width/2.8981), (int)Math.ceil(height/2.16), (int)Math.ceil(width/3.072), (int)Math.ceil(height/2.88));
-        inputText.setBackground(Color.red);
-        inputText.setForeground(Color.white);
-        inputText.setFont(normalFont);
-        inputText.setLineWrap(true);
-        inputText.setWrapStyleWord(true);
-        
-        //Input Panel
-        inputPanel = new JPanel();
-        inputPanel.setBounds((int)Math.ceil(width/2.6), (int)Math.ceil(height/2.16), (int)Math.ceil(width/4.9548), (int)Math.ceil(height/7.2));
-        inputPanel.setBackground(Color.red);
-        inputPanel.setLayout(new GridLayout(1,2));
-        window.setVisible(true);
         
         //Choices
 //        choice1 = new JButton("Attend Class");
@@ -166,10 +194,51 @@ public class Game {
     public class MainScreenHandler implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent event){
-            
-            createGameScreen();
             stage1();
         }
     }
     
+    public class InputHandler implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent event){
+            String name = inputField.getText();
+            studentName = name;
+            stage2();
+        }
+    }
+}
+
+class Student {
+    private int time = 1000, attendance = 0;
+    private float CGPA = 4.00f;
+    private String club = "", awards = "", name;
+    
+    public void setName(String name){
+        this.name = name;
+    }
+    
+    public void setTime(int time) {
+        this.time += time;
+    }
+
+    public void setAttendance(boolean attendance) {
+        if(attendance)
+            this.attendance += 1;
+    }
+
+    public void setCGPA(boolean status) {
+        if(status)
+            this.CGPA += 0.5;
+        else
+            this.CGPA -= 0.5;
+    }
+
+    public void setClub(String club) {
+        this.club = club;
+    }
+
+    public void setAwards(String awards) {
+        this.awards += awards;
+        this.awards += " ";
+    }
 }
