@@ -6,10 +6,10 @@ public class Game {
     
     Container container;
     JFrame window;
-    JPanel titlePanel, startButtonPanel, storyPanel, choicePanel;
+    JPanel titlePanel, startButtonPanel, storyPanel, choicePanel, inputPanel, inputTextPanel;
     JButton startButton, choice1, choice2, choice3, choice4;
     JLabel titleText;
-    JTextArea storyText;
+    JTextArea storyText, inputText;
     
     Dimension size = Toolkit.getDefaultToolkit().getScreenSize(); 
     int width = (int)size.getWidth(); 
@@ -101,11 +101,11 @@ public class Game {
         storyPanel.setBackground(Color.decode("#280a68"));
         
         //Choice panel
-        choicePanel = new JPanel();
-        choicePanel.setBounds((int)Math.ceil(width/2.8981), (int)Math.ceil(height/2.16), (int)Math.ceil(width/3.072), (int)Math.ceil(height/2.88));
-        choicePanel.setBackground(Color.blue);
-        choicePanel.setLayout(new GridLayout(4,1));
-        container.add(choicePanel);
+//        choicePanel = new JPanel();
+//        choicePanel.setBounds((int)Math.ceil(width/2.8981), (int)Math.ceil(height/2.16), (int)Math.ceil(width/3.072), (int)Math.ceil(height/2.88));
+//        choicePanel.setBackground(Color.blue);
+//        choicePanel.setLayout(new GridLayout(4,1));
+//        container.add(choicePanel);
         
     }
     
@@ -122,6 +122,37 @@ public class Game {
         storyPanel.add(storyText);
         container.add(storyPanel);
         timer.start();
+        
+        //For Input
+        window.getContentPane().setBackground(Color.decode("#280a68"));
+        container = window.getContentPane();
+        
+        //Input Text Panel
+//        inputTextPanel = new JPanel();
+//        inputTextPanel.setBounds((int)Math.ceil(width/2.8981), (int)Math.ceil(height/2.16), (int)Math.ceil(width/3.072), (int)Math.ceil(height/2.88));
+//        inputTextPanel.setBackground(Color.decode("#280a68"));
+//        
+//        inputText = new JLabel("Please enter your name: ");
+//        inputText.setForeground(Color.white);
+//        inputText.setFont(normalFont);
+//        inputTextPanel.add(inputText);
+//        container.add(inputTextPanel);
+        
+        text = "Please enter your name: ";
+        inputText = new JTextArea();
+        inputText.setBounds((int)Math.ceil(width/2.8981), (int)Math.ceil(height/2.16), (int)Math.ceil(width/3.072), (int)Math.ceil(height/2.88));
+        inputText.setBackground(Color.red);
+        inputText.setForeground(Color.white);
+        inputText.setFont(normalFont);
+        inputText.setLineWrap(true);
+        inputText.setWrapStyleWord(true);
+        
+        //Input Panel
+        inputPanel = new JPanel();
+        inputPanel.setBounds((int)Math.ceil(width/2.6), (int)Math.ceil(height/2.16), (int)Math.ceil(width/4.9548), (int)Math.ceil(height/7.2));
+        inputPanel.setBackground(Color.red);
+        inputPanel.setLayout(new GridLayout(1,2));
+        window.setVisible(true);
         
         //Choices
 //        choice1 = new JButton("Attend Class");
