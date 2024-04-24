@@ -105,7 +105,7 @@ public class Game {
         }
     });
     
-    public void stage1(){
+    public void introduction(){
         titlePanel.setVisible(false);
         startButtonPanel.setVisible(false);
        
@@ -145,27 +145,19 @@ public class Game {
         enter.setForeground(Color.black);
         enter.setFont(buttonFont);
         enter.addActionListener(inputHandler);
-
         
         inputPanel.add(enter);
         container.add(inputPanel);
     }
     
-    public void stage2(){
-        inputTextPanel.setVisible(false);
+    public void stage1(){
         inputPanel.setVisible(false);
+        inputTextPanel.setVisible(false);
         
         //Story Panel
         storyPanel = new JPanel();
         storyPanel.setBounds((int)Math.ceil(width/7.2), (int)Math.ceil(height/5.0), (int)Math.ceil(width/1.3), (int)Math.ceil(height/3.9));
         storyPanel.setBackground(Color.decode("#280a68"));
-        
-        //Choice panel
-//        choicePanel = new JPanel();
-//        choicePanel.setBounds((int)Math.ceil(width/2.8981), (int)Math.ceil(height/2.16), (int)Math.ceil(width/3.072), (int)Math.ceil(height/2.88));
-//        choicePanel.setBackground(Color.blue);
-//        choicePanel.setLayout(new GridLayout(4,1));
-//        container.add(choicePanel);
         
         //Body
         text = "Welcome " + studentName + "! You are a new student at the University of Asia Pacific. Explore the opportunities that lie ahead, and make wise choices as you have limited time to balance academics, extracurricular activities, and personal growth. Good Luck!";
@@ -180,9 +172,7 @@ public class Game {
         container.add(storyPanel);
         timer2.start();
         
-        
-        
-        //Choices
+        //Continue Button
 //        choice1 = new JButton("Attend Class");
 //        choice1.setBackground(Color.black);
 //        choice1.setForeground(Color.white);
@@ -191,10 +181,47 @@ public class Game {
 //        choicePanel.add(choice1);
     }
     
+    public void stage2(){
+        inputPanel.setVisible(false);
+        inputTextPanel.setVisible(false);
+        
+        //Body
+        text = "Welcome " + studentName + "! You are a new student at the University of Asia Pacific. Explore the opportunities that lie ahead, and make wise choices as you have limited time to balance academics, extracurricular activities, and personal growth. Good Luck!";
+        storyText = new JTextArea();
+        storyText.setBounds((int)Math.ceil(width/7.2), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.3), (int)Math.ceil(height/3.9));
+        storyText.setBackground(Color.decode("#280a68"));
+        storyText.setForeground(Color.white);
+        storyText.setFont(normalFont);
+        storyText.setLineWrap(true);
+        storyText.setWrapStyleWord(true);
+        storyPanel.add(storyText);
+        container.add(storyPanel);
+        timer2.start();
+        
+//        (Attend) You decide to attend your first class at UAP, eager to make a good impression on your professors.
+//        (Bunk) Feeling a bit overwhelmed by the new environment, you decide to skip your first class and explore the campus instead.
+
+        
+        //Continue Button
+//        choice1 = new JButton("Attend Class");
+//        choice1.setBackground(Color.black);
+//        choice1.setForeground(Color.white);
+//        choice1.setPreferredSize(new Dimension(300, 80));
+//        choice1.setFont(buttonFont);
+//        choicePanel.add(choice1);
+        
+        //Choice panel
+//        choicePanel = new JPanel();
+//        choicePanel.setBounds((int)Math.ceil(width/2.8981), (int)Math.ceil(height/2.16), (int)Math.ceil(width/3.072), (int)Math.ceil(height/2.88));
+//        choicePanel.setBackground(Color.blue);
+//        choicePanel.setLayout(new GridLayout(4,1));
+//        container.add(choicePanel);
+    }
+    
     public class MainScreenHandler implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent event){
-            stage1();
+            introduction();
         }
     }
     
@@ -203,7 +230,7 @@ public class Game {
         public void actionPerformed(ActionEvent event){
             String name = inputField.getText();
             studentName = name;
-            stage2();
+            stage1();
         }
     }
 }
