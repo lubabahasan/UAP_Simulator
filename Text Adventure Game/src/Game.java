@@ -1,23 +1,17 @@
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.util.*;
 
 public class Game {
     
     Container container;
     JFrame window;
     JPanel titlePanel, startButtonPanel, storyPanel, choicePanel;
-    RoundedButton startButton, choice1, choice2, choice3, choice4;
+    JButton startButton, choice1, choice2, choice3, choice4;
     JLabel titleText;
     JTextArea storyText;
+    
     Font titleFont = new Font("Impact", Font.PLAIN, 90);
     Font buttonFont = new Font("Garamond", Font.PLAIN, 30);
     Font normalFont = new Font("Calisto MT", Font.PLAIN, 40);
@@ -56,7 +50,7 @@ public class Game {
         startButtonPanel.setBackground(Color.decode("#280a68"));
         
         //start button
-        startButton = new RoundedButton("S T A R T  G A M E");
+        startButton = new JButton("S T A R T  G A M E");
         startButton.setBackground(Color.decode("#280a68"));
         startButton.setForeground(Color.white);
         startButton.setFont(buttonFont);
@@ -92,7 +86,6 @@ public class Game {
         storyPanel.add(storyText);
         container.add(storyPanel);
         
-        
         //Choice buttons
         choicePanel = new JPanel();
         choicePanel.setBounds(530, 400, 500, 300);
@@ -101,12 +94,12 @@ public class Game {
         container.add(choicePanel);
         
         //Choices
-        choice1 = new RoundedButton("Attend Class");
-        choice1.setBackground(Color.black);
-        choice1.setForeground(Color.white);
-        choice1.setPreferredSize(new Dimension(300, 80));
-        choice1.setFont(buttonFont);
-        choicePanel.add(choice1);
+//        choice1 = new JButton("Attend Class");
+//        choice1.setBackground(Color.black);
+//        choice1.setForeground(Color.white);
+//        choice1.setPreferredSize(new Dimension(300, 80));
+//        choice1.setFont(buttonFont);
+//        choicePanel.add(choice1);
     }
     
     public class MainScreenHandler implements ActionListener{
@@ -120,15 +113,5 @@ public class Game {
     
     
    
-    
-}
- 
-class Player {
-    
-    String name;
-    
-    public void getName( String name ){
-        this.name = name;
-    }
     
 }
