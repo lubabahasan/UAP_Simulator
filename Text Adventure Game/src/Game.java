@@ -24,7 +24,7 @@ public class Game {
     Font normalFont = new Font("Calisto MT", Font.PLAIN, (int)Math.ceil(height/23));
     Font smallNormalFont = new Font("Calisto MT", Font.PLAIN, (int)Math.ceil(height/25));
 
-    int time = 100, attendance = 0, friend = 0;
+    int time = 100, attendance = 0, friend = 0, clubActivity = 0, study = 0;
     float CGPA = 0.00f;
     String studentName, club = "", awards = "";
     
@@ -186,7 +186,7 @@ public class Game {
         
         timeValue.setText(""+time);
         attndValue.setText(""+attendance);
-        cgpaValue.setText(""+CGPA);
+        cgpaValue.setText(""+String.format("%.2f", CGPA));
         friendsValue.setText(""+friend);
         
         container.add(playerStatsPanel);
@@ -347,11 +347,9 @@ public class Game {
     }
     
     public void stage2(){
-        //Hiding Continue Button
-        contButtonPanel.setVisible(false);
-        
-        //Removing previous story
-        resetStoryPanel();
+        contButtonPanel.setVisible(false); //Hiding Continue Button
+
+        resetStoryPanel(); //Removing previous story
         
         //Setting up player stat panel at the top
         playerStatPanel();
@@ -378,8 +376,7 @@ public class Game {
         choiceButtonPanel.add(choice1);
         choiceButtonPanel.add(choice2);
         
-        //In case something's not loading, this helps
-        container.revalidate();
+        container.revalidate(); //In case something's not loading, this helps
     }
     
     public void stage3(){
@@ -452,36 +449,142 @@ public class Game {
         container.revalidate(); //refresh
     }
     
+    public void stage6(){
+        contStoryPanel.setVisible(false); //Hiding story continue button
+        resetStoryPanel(); //resetting story panel
+        setPlayerStat(); //updating status bar at the top
+
+        //Body
+        text = "With midterms approaching, your teacher announces a surprise class test.\n\nWhat do you want to do?";
+        setStoryText();
+        timer2.start();
+
+        //Choice Buttons
+        choiceButtonPanel();
+        buttons();
+
+        //Attend the test button
+        choice1.setText("Attend The Test");
+        choice1.setActionCommand("attend");
+
+        //Flunk the test button
+        choice2.setText("Skip The Test");
+        choice2.setActionCommand("bunk");
+        
+        //Cheat button
+        choice3.setText("Cheat In The Test");
+        choice3.setActionCommand("cheat");
+
+        //Adding buttons to panel
+        choiceButtonPanel.add(choice1);
+        choiceButtonPanel.add(choice2);
+        choiceButtonPanel.add(choice3);
+        
+        container.revalidate(); //refresh
+    }
+    
+    public void stage8(){
+        contStoryPanel.setVisible(false); //Hiding story continue button
+        resetStoryPanel(); //resetting story panel
+        setPlayerStat(); //updating status bar at the top
+
+        //Body
+        text = "As the semester progresses, the students of UAP involve themselves in arranging several different events, creating a joyous atmosphere.\n\nWhat do you plan to do?";
+        setStoryText();
+        timer2.start();
+        
+        //Choice Buttons
+        choiceButtonPanel();
+        buttons();
+
+        //Do Club Work
+        choice2.setText("Do Club Work");
+        choice2.setActionCommand("clubActivity");
+
+        //Study
+        choice1.setText("Study");
+        choice1.setActionCommand("study");
+        
+        //Participate In The Competitions
+        choice3.setText("Participate In The Competitions");
+        choice3.setActionCommand("extraCurr");
+
+        //Volunteer For The Events
+        choice4.setText("Volunteer For The Events");
+        choice4.setActionCommand("volunteer");
+        
+        //Adding buttons to panel
+        choiceButtonPanel.add(choice1);
+        choiceButtonPanel.add(choice2);
+        choiceButtonPanel.add(choice3);
+        choiceButtonPanel.add(choice4);
+        
+        container.revalidate(); //refresh
+    }
+    
     public void attend(){
         attendance++;
+        study++;
         CGPA+=0.5;
-        friend+=ThreadLocalRandom.current().nextInt(1, 2 + 1); //increase friend by a random number between 1 to 2
-        time-=ThreadLocalRandom.current().nextInt(1, 10 + 1); //reduce time by a random number between 1 to 10
+        if(contStoryCount==4){
+            CGPA+=1.0;
+        }
+        if(CGPA>4) CGPA=4;
+        friend+=ThreadLocalRandom.current().nextInt(0, 2 + 1); //increase friend by a random number between 0 to 2
+        time-=10; //reduces time by 10
         summary("You decide to attend your first class at UAP, eager to make a good impression on your professors.\n\n");
         choiceButtonPanel.setVisible(false); //hiding the choice panel
         contButton(); //showing the continue story button
     }
     
     public void bunk(){
-        friend+=ThreadLocalRandom.current().nextInt(1, 5 + 1); //increase friend by a random number between 1 to 5
-        time-=ThreadLocalRandom.current().nextInt(1, 10 + 1); //reduce time by a random number between 1 to 10
-        summary("Feeling a bit overwhelmed by the new environment, you decide to skip your first class and explore the campus instead.");
+        if(contStoryCount==4){
+            CGPA-=1.0;
+            if(CGPA<0) CGPA=0;
+            if(CGPA>4) CGPA=4;
+        }
+        friend+=ThreadLocalRandom.current().nextInt(0, 2 + 1); //increase friend by a random number between 0 to 2
+        time-=ThreadLocalRandom.current().nextInt(5, 10 + 1);; //reduces time by a random number between 5 to 10
+        if(contStoryCount==4)
+            summary("Feeling unprepared and overwhelmed, you consider skipping class to avoid the surprise test.");
+        else
+            summary("Feeling a bit overwhelmed by the new environment, you decide to skip your first class and explore the campus instead.");
+        choiceButtonPanel.setVisible(false); //hiding the choice panel
+        contButton(); //showing the continue story button
+    }
+    
+    public void cheat(){
+        attendance++;
+        if(friend>=2){
+            CGPA+=ThreadLocalRandom.current().nextFloat(0.5f, 1 + 1);
+            summary("Fearing the consequences of failure, you resort to cheating on the test. Your friends help you with it.");
+        } else if(friend<=1 && friend>0){
+            CGPA+=ThreadLocalRandom.current().nextFloat(0, 0.5f + 1);
+            summary("Fearing the consequences of failure, you resort to cheating on the test. Your friend helps you with it.");
+        } else {
+            CGPA+=ThreadLocalRandom.current().nextFloat(0, -0.5f + 1);
+            summary("Fearing the consequences of failure, you resort to cheating on the test. Alas, the teacher catches you in the process and deducts marks");
+        }
+        if(CGPA>4) CGPA=4;
+        if(CGPA<0) CGPA=0;
+        time-=10; //reduce time by 10
         choiceButtonPanel.setVisible(false); //hiding the choice panel
         contButton(); //showing the continue story button
     }
     
     public void homework() {
         CGPA+=0.5;  //increase cgpa by 0.5
-        time-=ThreadLocalRandom.current().nextInt(1, 10 + 1); //reduce time by a random number between 1 to 10
+        if(CGPA>4) CGPA=4;
+        time-=ThreadLocalRandom.current().nextInt(5, 10 + 1); //reduce time by a random number between 5 to 10
         summary("You use the break to finish up some homework assignments, determined to stay on top of your studies.");
         choiceButtonPanel.setVisible(false); //hiding the choice panel
         contButton(); //showing the continue story button
     }
 
     public void hangout() {
-        time-=ThreadLocalRandom.current().nextInt(1, 10 + 1); //reduce time by a random number between 1 to 10
-        friend+=ThreadLocalRandom.current().nextInt(1, 3 + 1);
-        summary("you decided to take a break and hangout with your friends, enjoying some quality time and fun activities. You can feel your bond strengthening.");
+        time-=ThreadLocalRandom.current().nextInt(5, 10 + 1); //reduce time by a random number between 5 to 10
+        friend+=ThreadLocalRandom.current().nextInt(0, 2 + 1); //increase friend by a random number between 0 to 2
+        summary("You decided to take a break and hangout with your friends, enjoying some quality time and fun activities. You can feel your bond strengthening.");
         choiceButtonPanel.setVisible(false); //hiding the choice panel
         contButton(); //showing the continue story button
     }
@@ -494,23 +597,49 @@ public class Game {
     }
 
     public void mathClub() {
-        club+="math";
+        club+="Math Club";
         CGPA-=0.1;
+        if(CGPA<0) CGPA=0;
+        if(CGPA>4) CGPA=4;
         awards+="Math Enthusiast";
-        time-=20;
-        friend+=ThreadLocalRandom.current().nextInt(1, 3 + 1);
+        time-= ThreadLocalRandom.current().nextInt(5, 10 + 1); //reduce time by a random number between 5 to 10
+        friend+=ThreadLocalRandom.current().nextInt(1, 2 + 1); //increase friend by a random number between 1 to 2
         summary("Intrigued by your love for mathematics, you decide to join the Math Club to meet like-minded individuals and participate in math-related activities.");
         choiceButtonPanel.setVisible(false); //hiding the choice panel
         contButton(); //showing the continue story button
     }
 
     public void pccClub() {
-        club+="pcc";
+        club+="Programming Contest Club";
         CGPA-=0.1;
+        if(CGPA<0) CGPA=0;
+        if(CGPA>4) CGPA=4;
         awards+="Pro-grammer";
-        time-=20;
-        friend+=ThreadLocalRandom.current().nextInt(1, 3 + 1);
+        time-= ThreadLocalRandom.current().nextInt(5, 10 + 1); //reduce time by a random number between 5 to 10
+        friend+=ThreadLocalRandom.current().nextInt(1, 2 + 1); //increase friend by a random number between 1 to 2
         summary("With a passion for coding, you eagerly sign up for the Programming Contest Club to sharpen your programming skills and compete in coding competitions.");
+        choiceButtonPanel.setVisible(false); //hiding the choice panel
+        contButton(); //showing the continue story button
+    }
+    
+    public void clubActivity(){
+        time-= ThreadLocalRandom.current().nextInt(5, 10 + 1); //reduce time by a random number between 5 to 10
+        clubActivity++;
+        switch (clubActivity) {
+            case 1:
+                awards+=", Executive Member";
+                summary("Since you've joined the "+club+", you decide to spend your break attending a club meeting and discussing upcoming activities and events.");
+                break;
+            case 2:
+                awards+=", Vice President";
+                summary("You continue to participate in club activities during your breaks, enjoying the camaraderie and sense of belonging that comes with being part of the "+club+".");
+                break;
+            case 3:
+                awards+=", President";
+                break;
+            default:
+                break;
+        }
         choiceButtonPanel.setVisible(false); //hiding the choice panel
         contButton(); //showing the continue story button
     }
@@ -567,6 +696,12 @@ public class Game {
                 case "pcc":
                     pccClub();
                     break;
+                case "clubActivity":
+                    clubActivity();
+                    break;
+                case "cheat":
+                    cheat();
+                    break;
                 default:
                     break;
             }
@@ -578,7 +713,7 @@ public class Game {
         public void actionPerformed(ActionEvent event){
             i = 0;
             switch(contStoryCount){
-                case 0, 2:
+                case 0, 2, 4:
                     stage3();
                     contStoryCount++;
                     break;
@@ -587,7 +722,11 @@ public class Game {
                     contStoryCount++;
                     break;
                 case 3:
-                    //stage6();
+                    stage6();
+                    contStoryCount++;
+                    break;
+                case 5:
+                    stage8();
                     contStoryCount++;
                     break;
                 default:
