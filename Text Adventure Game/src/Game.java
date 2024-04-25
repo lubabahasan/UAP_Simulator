@@ -403,7 +403,14 @@ public class Game {
         //Hangout with friends button
         choice2.setText("Hangout With Friends");
         choice2.setActionCommand("hangout");
-
+        
+        if(club.length()>=1){
+            //Club Activities button
+            choice3.setText("Club Activities");
+            choice3.setActionCommand("clubActivity");
+            choiceButtonPanel.add(choice3);
+        }
+        
         //Adding buttons to panel
         choiceButtonPanel.add(choice1);
         choiceButtonPanel.add(choice2);
@@ -480,7 +487,6 @@ public class Game {
     }
     
     public void noClub() {
-        club+="none";
         awards+="Nothing Fazes Me";
         summary("With your schedule already packed, you decide to focus on your academics and forgo joining any clubs.");
         choiceButtonPanel.setVisible(false); //hiding the choice panel
@@ -489,6 +495,7 @@ public class Game {
 
     public void mathClub() {
         club+="math";
+        CGPA-=0.1;
         awards+="Math Enthusiast";
         time-=20;
         friend+=ThreadLocalRandom.current().nextInt(1, 3 + 1);
@@ -499,6 +506,7 @@ public class Game {
 
     public void pccClub() {
         club+="pcc";
+        CGPA-=0.1;
         awards+="Pro-grammer";
         time-=20;
         friend+=ThreadLocalRandom.current().nextInt(1, 3 + 1);
@@ -570,16 +578,12 @@ public class Game {
         public void actionPerformed(ActionEvent event){
             i = 0;
             switch(contStoryCount){
-                case 0:
+                case 0, 2:
                     stage3();
                     contStoryCount++;
                     break;
                 case 1:
                     stage4();
-                    contStoryCount++;
-                    break;
-                case 2:
-                    //stage5();
                     contStoryCount++;
                     break;
                 case 3:
