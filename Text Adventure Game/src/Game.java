@@ -448,43 +448,43 @@ public class Game {
     public void attend(){
         attendance++;
         CGPA+=0.5;
-        friend+=ThreadLocalRandom.current().nextInt(1, 2 + 1);
-        time-=10;
+        friend+=ThreadLocalRandom.current().nextInt(1, 2 + 1); //increase friend by a random number between 1 to 2
+        time-=ThreadLocalRandom.current().nextInt(1, 10 + 1); //reduce time by a random number between 1 to 10
         summary("You decide to attend your first class at UAP, eager to make a good impression on your professors.\n\n");
-        choiceButtonPanel.setVisible(false);
-        contButton();
+        choiceButtonPanel.setVisible(false); //hiding the choice panel
+        contButton(); //showing the continue story button
     }
     
     public void bunk(){
-        time-=ThreadLocalRandom.current().nextInt(1, 10 + 1);
-        friend+=ThreadLocalRandom.current().nextInt(1, 5 + 1);
+        friend+=ThreadLocalRandom.current().nextInt(1, 5 + 1); //increase friend by a random number between 1 to 5
+        time-=ThreadLocalRandom.current().nextInt(1, 10 + 1); //reduce time by a random number between 1 to 10
         summary("Feeling a bit overwhelmed by the new environment, you decide to skip your first class and explore the campus instead.");
-        choiceButtonPanel.setVisible(false);
-        contButton();
+        choiceButtonPanel.setVisible(false); //hiding the choice panel
+        contButton(); //showing the continue story button
     }
     
     public void homework() {
-        CGPA+=0.5;
-        time-=ThreadLocalRandom.current().nextInt(1, 10 + 1);
+        CGPA+=0.5;  //increase cgpa by 0.5
+        time-=ThreadLocalRandom.current().nextInt(1, 10 + 1); //reduce time by a random number between 1 to 10
         summary("You use the break to finish up some homework assignments, determined to stay on top of your studies.");
-        choiceButtonPanel.setVisible(false);
-        contButton();
+        choiceButtonPanel.setVisible(false); //hiding the choice panel
+        contButton(); //showing the continue story button
     }
 
     public void hangout() {
-        time-=10;
+        time-=ThreadLocalRandom.current().nextInt(1, 10 + 1); //reduce time by a random number between 1 to 10
         friend+=ThreadLocalRandom.current().nextInt(1, 3 + 1);
         summary("you decided to take a break and hangout with your friends, enjoying some quality time and fun activities. You can feel your bond strengthening.");
-        choiceButtonPanel.setVisible(false);
-        contButton();
+        choiceButtonPanel.setVisible(false); //hiding the choice panel
+        contButton(); //showing the continue story button
     }
     
     public void noClub() {
         club+="none";
         awards+="Nothing Fazes Me";
         summary("With your schedule already packed, you decide to focus on your academics and forgo joining any clubs.");
-        choiceButtonPanel.setVisible(false);
-        contButton();
+        choiceButtonPanel.setVisible(false); //hiding the choice panel
+        contButton(); //showing the continue story button
     }
 
     public void mathClub() {
@@ -493,8 +493,8 @@ public class Game {
         time-=20;
         friend+=ThreadLocalRandom.current().nextInt(1, 3 + 1);
         summary("Intrigued by your love for mathematics, you decide to join the Math Club to meet like-minded individuals and participate in math-related activities.");
-        choiceButtonPanel.setVisible(false);
-        contButton();
+        choiceButtonPanel.setVisible(false); //hiding the choice panel
+        contButton(); //showing the continue story button
     }
 
     public void pccClub() {
@@ -503,8 +503,8 @@ public class Game {
         time-=20;
         friend+=ThreadLocalRandom.current().nextInt(1, 3 + 1);
         summary("With a passion for coding, you eagerly sign up for the Programming Contest Club to sharpen your programming skills and compete in coding competitions.");
-        choiceButtonPanel.setVisible(false);
-        contButton();
+        choiceButtonPanel.setVisible(false); //hiding the choice panel
+        contButton(); //showing the continue story button
     }
     
     public class MainScreenHandler implements ActionListener{
