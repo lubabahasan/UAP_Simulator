@@ -304,6 +304,7 @@ public class Game {
     }
     
     public void stage1(){
+        //Hiding input panel
         inputPanel.setVisible(false);
         inputTextPanel.setVisible(false);
         
@@ -340,12 +341,19 @@ public class Game {
         contButton.setFocusPainted(false);
         contButtonPanel.add(contButton);
         container.add(contButtonPanel);
+        
+        //Updates the screen to show latest addition to the panels
         SwingUtilities.updateComponentTreeUI(mainWindow);
     }
     
     public void stage2(){
+        //Hiding Continue Button
         contButtonPanel.setVisible(false);
+        
+        //Removing previous story
         resetStoryPanel();
+        
+        //Setting up player stat panel at the top
         playerStatPanel();
         setPlayerStat();
         
@@ -354,7 +362,7 @@ public class Game {
         setStoryText();
         timer2.start();
        
-        //Choice Buttons
+        //Adding Choice Buttons
         choiceButtonPanel();
         buttons();
         
@@ -366,16 +374,18 @@ public class Game {
         choice2.setText("Bunk Class");
         choice2.setActionCommand("bunk");
         
-        //Adding buttons to panel
+        //Adding buttons to the panel
         choiceButtonPanel.add(choice1);
         choiceButtonPanel.add(choice2);
+        
+        //In case something's not loading, this helps
         container.revalidate();
     }
     
     public void stage3(){
-        contStoryPanel.setVisible(false);
-        resetStoryPanel();
-        setPlayerStat();
+        contStoryPanel.setVisible(false); //Hiding story continue button
+        resetStoryPanel(); //resetting story panel
+        setPlayerStat(); //updating status bar at the top
 
         //Body
         text = "During a break in your schedule, you have a chance to catch your breath and decide how to make the most of your free time.";
@@ -397,13 +407,14 @@ public class Game {
         //Adding buttons to panel
         choiceButtonPanel.add(choice1);
         choiceButtonPanel.add(choice2);
-        container.revalidate();
+        
+        container.revalidate(); //refresh
     }
     
     public void stage4(){
-        contStoryPanel.setVisible(false);
-        resetStoryPanel();
-        setPlayerStat();
+        contStoryPanel.setVisible(false); //Hiding story continue button
+        resetStoryPanel(); //resetting story panel
+        setPlayerStat(); //updating status bar at the top
 
         //Body
         text = "UAP is hosting a club fair in the Plaza. You're presented with the opportunity to explore various clubs on campus.\n\nWhich club will you join?";
@@ -430,7 +441,8 @@ public class Game {
         choiceButtonPanel.add(choice1);
         choiceButtonPanel.add(choice2);
         choiceButtonPanel.add(choice3);
-        container.revalidate();
+        
+        container.revalidate(); //refresh
     }
     
     public void attend(){
