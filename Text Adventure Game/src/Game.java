@@ -22,7 +22,7 @@ public class Game {
     Font buttonFont = new Font("Garamond", Font.PLAIN, (int)Math.ceil(height/28.8));
     Font choiceFont = new Font("Garamond", Font.BOLD, (int)Math.ceil(height/28.8));
     Font normalFont = new Font("Calisto MT", Font.PLAIN, (int)Math.ceil(height/23));
-    Font smallNormalFont = new Font("Calisto MT", Font.PLAIN, (int)Math.ceil(height/25));
+    Font smallNormalFont = new Font("Calisto MT", Font.PLAIN, (int)Math.ceil(height/25.5));
 
     int time = 150, attendance = 0, friend = 0, clubActivity = 0, study = 0;
     float CGPA = 0.00f;
@@ -120,14 +120,14 @@ public class Game {
         storyPanel.remove(storyText);
         storyPanel.revalidate();
         storyPanel = new JPanel();
-        storyPanel.setBounds((int)Math.ceil(width/7.2), (int)Math.ceil(height/4.7), (int)Math.ceil(width/1.3), (int)Math.ceil(height/3.9));
+        storyPanel.setBounds((int)Math.ceil(width/7.4), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.3), (int)Math.ceil(height/5));
         storyPanel.setBackground(Color.decode("#280a68"));
         container.add(storyPanel);
     }
     
     public void setStoryText(){
         storyText = new JTextArea();
-        storyText.setBounds((int)Math.ceil(width/7.2), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.3), (int)Math.ceil(height/3.9));
+        storyText.setBounds((int)Math.ceil(width/7.4), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.3), (int)Math.ceil(height/100));
         storyText.setBackground(Color.decode("#280a68"));
         storyText.setForeground(Color.white);
         storyText.setFont(normalFont);
@@ -139,7 +139,8 @@ public class Game {
     public void playerStatPanel(){
         //Top Player Stat Panel
         playerStatsPanel = new JPanel();
-        playerStatsPanel.setBounds((int)Math.ceil(width/15), (int)Math.ceil(height/15), (int)Math.ceil(width), (int)Math.ceil(height/7.2));
+        playerStatsPanel.setBorder(BorderFactory.createLineBorder(Color.white));
+        playerStatsPanel.setBounds((int)Math.ceil(width/30), (int)Math.ceil(height/9), (int)Math.ceil(width/1.05), (int)Math.ceil(height/12));
         playerStatsPanel.setBackground(Color.decode("#280a68"));
         playerStatsPanel.setLayout(new GridLayout(1,8));
         
@@ -158,7 +159,7 @@ public class Game {
         attndValue.setFont(smallNormalFont);
         attndValue.setForeground(Color.white);
         
-        cgpaLabel = new JLabel("    CGPA:");
+        cgpaLabel = new JLabel("  CGPA:");
         cgpaLabel.setFont(smallNormalFont);
         cgpaLabel.setForeground(Color.white);
         cgpaValue = new JLabel();
@@ -182,11 +183,11 @@ public class Game {
         playerStatsPanel.add(friendsValue);
     }
     
-    /*public void gameStatPanel(){
+    public void gameStatPanel(){
         //Top game Stat Panel
         JPanel gameStatPanel = new JPanel();
-        gameStatPanel.setBounds((int)Math.ceil(width/15), (int)Math.ceil(height/19), (int)Math.ceil(width), (int)Math.ceil(height/7.2));
-        gameStatPanel.setBackground(Color.red);
+        gameStatPanel.setBounds((int)Math.ceil(width/6), (int)Math.ceil(height/55), (int)Math.ceil(width/1.5), (int)Math.ceil(height/12));
+        gameStatPanel.setBackground(Color.decode("#280a68"));
         gameStatPanel.setLayout(new GridLayout(1,4));
         
         //Adding Stat Labels to Panel
@@ -198,14 +199,15 @@ public class Game {
         stageValue.setForeground(Color.white);
         
         gameStatPanel.add(stageLabel);
-    }*/
+        container.add(gameStatPanel);
+    }
     
     public void setPlayerStat(){
         
         timeValue.setText(""+time);
-        attndValue.setText(""+attendance);
+        attndValue.setText("   "+attendance);
         cgpaValue.setText(""+String.format("%.2f", CGPA));
-        friendsValue.setText(""+friend);
+        friendsValue.setText(" "+friend);
         
         container.add(playerStatsPanel);
     }
@@ -370,13 +372,14 @@ public class Game {
             contButtonPanel.setVisible(false); //Hiding Continue Button
             resetStoryPanel(); //Removing previous story
             playerStatPanel(); //Setting up player stat panel at the top
+            gameStatPanel();
             setPlayerStat();
-            text = "You enter your first class at UAP. Seems like your teacher isn’t here yet.\n\nWhat do you want to do?";
+            text = "You enter your first class at UAP. Seems like your teacher isn’t here yet.\nWhat do you want to do?";
         
         } else if(contStoryCount>=2){
             resetStoryPanel(); //Removing previous story
             setPlayerStat();
-            text = "As the familiar routine of classes resumes, you find yourself once again at a crossroads.\n\nWhat do you want to do?";
+            text = "As the familiar routine of classes resumes, you find yourself once again at a crossroads.\nWhat do you want to do?";
             contStoryPanel.setVisible(false); //Hiding story continue button
         }
         
@@ -495,7 +498,7 @@ public class Game {
         setPlayerStat(); //updating status bar at the top
 
         //Body
-        text = "With midterms approaching, your teacher announces a surprise class test.\n\nWhat do you want to do?";
+        text = "With midterms approaching, your teacher announces a surprise class test.\nWhat do you want to do?";
         setStoryText();
         timer2.start();
 
@@ -529,7 +532,11 @@ public class Game {
         setPlayerStat(); //updating status bar at the top
 
         //Body
-        text = "As the semester progresses, the students of UAP involve themselves in arranging several different events, creating a joyous atmosphere.\nWhat do you plan to do?";
+        if(contStoryCount<8)
+            text = "As the semester progresses, the students of UAP involve themselves in arranging several different events, creating a joyous atmosphere.\nWhat do you plan to do?";
+        else
+            text = "As the end of the semester comes close, The Math Club is hosting a math olympiad, while the Programming Contest Club is planning a hackathon. You have been invited to assist in organizing the event, or you can choose to participate. What will you do?";
+
         setStoryText();
         timer2.start();
         
@@ -571,81 +578,84 @@ public class Game {
         contStoryPanel.setVisible(false); //Hiding story continue button
         resetStoryPanel(); //resetting story panel
         setPlayerStat(); //updating status bar at the top
-
-        if(attendance<1){
-            text = "Midterms are finally here. Unfortunately, due to low attendance, you did not get the permission to sit for the exam.\nBe careful next time.";
-            setStoryText();
-            timer2.start();
-            CGPA-=0.5;
-            if(CGPA<0) CGPA=0;
-            contButton();
+        
+        if(contStoryCount<11){
+            if(attendance<1){
+                text = "Midterms are finally here. Unfortunately, due to low attendance, you did not get the permission to sit for the exam.\nBe careful next time.";
+                setStoryText();
+                timer2.start();
+                CGPA-=0.5;
+                if(CGPA<0) CGPA=0;
+                contButton();
+            } else {
+                text = "Midterms are finally here. What choice will you make?";
+            }
         } else {
-            text = "Midterms are finally here. What choice will you make?";
-            setStoryText();
-            timer2.start();
-
-            //Choice Buttons
-            choiceButtonPanel();
-            buttons();
-
-            //attend honestly
-            choice1.setText("Attend Honestly");
-            choice1.setActionCommand("attend");
-
-            //skip the exam
-            choice2.setText("Skip The Exam");
-            choice2.setActionCommand("skip");
-
-            //Cheat in the exam
-            choice3.setText("Cheat In The Exam");
-            choice3.setActionCommand("cheat");
-
-            //Adding buttons to panel
-            choiceButtonPanel.add(choice1);
-            choiceButtonPanel.add(choice2);
-            choiceButtonPanel.add(choice3);
+            if(attendance<3){
+                text = "The finals are finally here. Unfortunately, due to low attendance, you did not get the permission to sit for the exam. This automatically results in a semester drop for you.\nSee you next time...";
+                setStoryText();
+                timer2.start();
+                CGPA-=2.0;
+                if(CGPA<0) CGPA=0;
+                contButton();
+            } else {
+                text = "The finals are finally here. How do you plan on proceeding?";
+            }
         }
+        
+        setStoryText();
+        timer2.start();
+
+        //Choice Buttons
+        choiceButtonPanel();
+        buttons();
+
+        //attend honestly
+        choice1.setText("Attend Honestly");
+        choice1.setActionCommand("attend");
+
+        //skip the exam
+        choice2.setText("Skip The Exam");
+        choice2.setActionCommand("skip");
+
+        //Cheat in the exam
+        choice3.setText("Cheat In The Exam");
+        choice3.setActionCommand("cheat");
+
+        //Adding buttons to panel
+        choiceButtonPanel.add(choice1);
+        choiceButtonPanel.add(choice2);
+        choiceButtonPanel.add(choice3);
+        
         container.revalidate(); //refresh
     }
     
-    public void stage12(){
+    public void stage13(){
         contStoryPanel.setVisible(false); //Hiding story continue button
         resetStoryPanel(); //resetting story panel
         setPlayerStat(); //updating status bar at the top
 
-        if(attendance<1){
-            text = "Bruh be careful next time.";
-            setStoryText();
-            timer2.start();
-            CGPA-=0.5;
-            if(CGPA<0) CGPA=0;
-            contButton();
-        } else {
-            text = "Midterms are finally here. What choice will you make?";
-            setStoryText();
-            timer2.start();
+        //Body
+        text = "It's the final stretch of the semester, and you're feeling the pressure. With finals approaching, you must weigh the importance of studying against the opportunity to relax and bond with friends on a road trip.\nWhat will you do?";
+        setStoryText();
+        timer2.start();
+        
+        //Choice Buttons
+        choiceButtonPanel();
+        buttons();
+        
+        //Go on the trip
+        choice1.setText("Go On The Trip");
+        choice1.setActionCommand("hangout");
 
-            //Choice Buttons
-            choiceButtonPanel();
-            buttons();
-
-            //attend honestly
-            choice1.setText("Attend Honestly");
-            choice1.setActionCommand("attend");
-
-            //skip the exam
-            choice2.setText("Skip The Exam");
-            choice2.setActionCommand("skip");
-
-            //Cheat in the exam
-            choice3.setText("Cheat In The Exam");
-            choice3.setActionCommand("cheat");
-
-            //Adding buttons to panel
-            choiceButtonPanel.add(choice1);
-            choiceButtonPanel.add(choice2);
-            choiceButtonPanel.add(choice3);
-        }
+        //study
+        choice2.setText("Study For The Exam");
+        choice2.setActionCommand("libary");
+        
+        //Adding buttons to panel
+        choiceButtonPanel.add(choice1);
+        choiceButtonPanel.add(choice2);
+        
         container.revalidate(); //refresh
     }
     
@@ -661,7 +671,7 @@ public class Game {
         } else if(contStoryCount==0){
             study++;
             friend+=ThreadLocalRandom.current().nextInt(0, 2 + 1); //increase friend by a random number between 0 to 2
-            summary("You decide to attend your first class at UAP, eager to make a good impression on your professors.\n\n");
+            summary("You decide to attend your first class at UAP, eager to make a good impression on your professors.");
         } else if(contStoryCount==7){
             summary("Armed with knowledge and preparation, you attend your midterm exams with confidence.");
             CGPA+=(attendance*0.5)+(study*0.1);
@@ -889,7 +899,7 @@ public class Game {
                     library();
                     break;
                 case "extraCurr":
-                    
+                    break;
                 default:
                     break;
             }
@@ -917,16 +927,16 @@ public class Game {
                     stage6();
                     contStoryCount++;
                     break;
-                case 5:
+                case 5, 9:
                     stage8();
                     contStoryCount++;
                     break;
-                case 6:
+                case 6, 11:
                     stage9();
                     contStoryCount++;
                     break;
-                case 9:
-                    stage12();
+                case 10:
+                    stage13();
                     contStoryCount++;
                     break;
                 default:
