@@ -1,46 +1,37 @@
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.concurrent.ThreadLocalRandom;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
-public class Game {
-   
-    Container container;
-    JFrame mainWindow;
-    JPanel titlePanel, startButtonPanel, storyPanel, inputTextPanel, inputPanel, contButtonPanel;
-    JPanel choiceButtonPanel, playerStatsPanel, contStoryPanel;
-    JButton startButton, enter, contButton, choice1, choice2, choice3, choice4, contStory;
-    JLabel titleText, timeLabel, timeValue, attndLabel, attndValue, cgpaLabel, cgpaValue, friendsLabel, friendsValue;
-    JTextArea storyText, inputText;
-    JTextField inputField;
 
-    Dimension size = Toolkit.getDefaultToolkit().getScreenSize(); 
-    int width = (int)size.getWidth(); 
-    int height = (int)size.getHeight();
-
-    Font titleFont = new Font("Impact", Font.PLAIN, (int)Math.ceil(height/9.6));
-    Font buttonFont = new Font("Garamond", Font.PLAIN, (int)Math.ceil(height/28.8));
-    Font choiceFont = new Font("Garamond", Font.BOLD, (int)Math.ceil(height/28.8));
-    Font normalFont = new Font("Calisto MT", Font.PLAIN, (int)Math.ceil(height/23));
-    Font smallNormalFont = new Font("Calisto MT", Font.PLAIN, (int)Math.ceil(height/25.5));
-
-    int time = 150, attendance = 0, friend = 0, clubActivity = 0, study = 0;
-    float CGPA = 0.00f;
-    String studentName, club = "", awards = "";
+public class Game extends Stages {
     
-    String text;
-    int i = 0, flag = 0, contStoryCount = 0;
+    //Used for calculations
+    String text;  int i = 0, contStoryCount = 0;
     
+    //Handlers
     MainScreenHandler actionHandler = new MainScreenHandler();
     InputHandler inputHandler = new InputHandler();
     ContinueHandler continueHandler = new ContinueHandler();
     ChoiceHandler choiceHandler = new ChoiceHandler();
     ContStoryHandler contStoryHandler = new ContStoryHandler();
     
+    //main method
     public static void main(String[] args) {
         Game game = new Game();
     }
     
+    //Game class's constructor
     public Game(){
         
         mainWindow = new JFrame();
@@ -48,42 +39,14 @@ public class Game {
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exits program by closing the window
         mainWindow.getContentPane().setBackground(Color.decode("#280a68")); //sets background colour
         mainWindow.setLayout(null); //for custom layout
-        mainWindow.setVisible(true); //make it appear on screen
+        mainWindow.setVisible(true); //makes it appear on screen
         container = mainWindow.getContentPane(); //for title screen
         
-        //title panel
-        titlePanel = new JPanel(); //new panel
-        titlePanel.setBounds((int)Math.ceil(width/4.8), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.71), (int)Math.ceil(height/7.2)); //panel resolution
-        titlePanel.setBackground(Color.decode("#a70c70")); //panel background colour
+        titlePanel();       //shows the title
+        startButtonPanel(); //shows start button panel
+        startButton();      //shows the start button
         
-        //title text
-        titleText = new JLabel("U A P  S I M U L A T O R"); //setting title text
-        titleText.setForeground(Color.white); //title tex colour setting
-        titleText.setFont(titleFont); //assingng font properties
-        
-        //start button panel
-        startButtonPanel = new JPanel();
-        startButtonPanel.setBounds((int)Math.ceil(width/2.6), (int)Math.ceil(height/2.16), (int)Math.ceil(width/4.9548), (int)Math.ceil(height/7.2));
-        startButtonPanel.setBackground(Color.decode("#280a68"));
-        
-        //start button
-        startButton = new JButton("S T A R T  G A M E");
-        startButton.setBackground(Color.decode("#280a68"));
-        startButton.setForeground(Color.white);
-        startButton.setFont(buttonFont);
-        startButton.setPreferredSize(new Dimension((int)Math.ceil(width/5.12), (int)Math.ceil(height/10.8)));
-        startButton.addActionListener(actionHandler);
-        startButton.setFocusPainted(false);
-        
-        //Adding Labels to Panels
-        titlePanel.add(titleText); //adding title text to panel
-        startButtonPanel.add(startButton);
-        
-        //Adding panels to screen
-        container.add(titlePanel);
-        container.add(startButtonPanel);
-        SwingUtilities.updateComponentTreeUI(mainWindow);
-        
+        SwingUtilities.updateComponentTreeUI(mainWindow); //to make newly added components appear 
     }
     
     Timer timer1 = new Timer(5, new ActionListener(){
@@ -116,112 +79,19 @@ public class Game {
         }
     });
     
-    public void resetStoryPanel(){
-        storyPanel.remove(storyText);
-        storyPanel.revalidate();
-        storyPanel = new JPanel();
-        storyPanel.setBounds((int)Math.ceil(width/7.4), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.3), (int)Math.ceil(height/5));
-        storyPanel.setBackground(Color.decode("#280a68"));
-        container.add(storyPanel);
+    //Start Game button
+    public void startButton(){
+        startButton = new JButton("S T A R T  G A M E");
+        startButton.setBackground(Color.decode("#280a68"));
+        startButton.setForeground(Color.white);
+        startButton.setFont(buttonFont);
+        startButton.setPreferredSize(new Dimension((int)Math.ceil(width/5.12), (int)Math.ceil(height/10.8)));
+        startButton.addActionListener(actionHandler);
+        startButton.setFocusPainted(false);
     }
     
-    public void setStoryText(){
-        storyText = new JTextArea();
-        storyText.setBounds((int)Math.ceil(width/7.4), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.3), (int)Math.ceil(height/100));
-        storyText.setBackground(Color.decode("#280a68"));
-        storyText.setForeground(Color.white);
-        storyText.setFont(normalFont);
-        storyText.setLineWrap(true);
-        storyText.setWrapStyleWord(true);
-        storyPanel.add(storyText);
-    }
-    
-    public void playerStatPanel(){
-        //Top Player Stat Panel
-        playerStatsPanel = new JPanel();
-        playerStatsPanel.setBorder(BorderFactory.createLineBorder(Color.white));
-        playerStatsPanel.setBounds((int)Math.ceil(width/30), (int)Math.ceil(height/9), (int)Math.ceil(width/1.05), (int)Math.ceil(height/12));
-        playerStatsPanel.setBackground(Color.decode("#280a68"));
-        playerStatsPanel.setLayout(new GridLayout(1,8));
-        
-        //Adding Stat Labels to Panel
-        timeLabel = new JLabel("    Time:");
-        timeLabel.setFont(smallNormalFont);
-        timeLabel.setForeground(Color.white);
-        timeValue = new JLabel();
-        timeValue.setFont(smallNormalFont);
-        timeValue.setForeground(Color.white);
-        
-        attndLabel = new JLabel("Attendance:");
-        attndLabel.setFont(smallNormalFont);
-        attndLabel.setForeground(Color.white);
-        attndValue = new JLabel();
-        attndValue.setFont(smallNormalFont);
-        attndValue.setForeground(Color.white);
-        
-        cgpaLabel = new JLabel("  CGPA:");
-        cgpaLabel.setFont(smallNormalFont);
-        cgpaLabel.setForeground(Color.white);
-        cgpaValue = new JLabel();
-        cgpaValue.setFont(smallNormalFont);
-        cgpaValue.setForeground(Color.white);
-        
-        friendsLabel = new JLabel(" Friends:");
-        friendsLabel.setFont(smallNormalFont);
-        friendsLabel.setForeground(Color.white);
-        friendsValue = new JLabel();
-        friendsValue.setFont(smallNormalFont);
-        friendsValue.setForeground(Color.white);
-        
-        playerStatsPanel.add(timeLabel);
-        playerStatsPanel.add(timeValue);
-        playerStatsPanel.add(attndLabel);
-        playerStatsPanel.add(attndValue);
-        playerStatsPanel.add(cgpaLabel);
-        playerStatsPanel.add(cgpaValue);
-        playerStatsPanel.add(friendsLabel);
-        playerStatsPanel.add(friendsValue);
-    }
-    
-    public void gameStatPanel(){
-        //Top game Stat Panel
-        JPanel gameStatPanel = new JPanel();
-        gameStatPanel.setBounds((int)Math.ceil(width/6), (int)Math.ceil(height/55), (int)Math.ceil(width/1.5), (int)Math.ceil(height/12));
-        gameStatPanel.setBackground(Color.decode("#280a68"));
-        gameStatPanel.setLayout(new GridLayout(1,4));
-        
-        //Adding Stat Labels to Panel
-        JLabel stageLabel = new JLabel("    Stage:");
-        stageLabel.setFont(smallNormalFont);
-        stageLabel.setForeground(Color.white);
-        JLabel stageValue = new JLabel();
-        stageValue.setFont(smallNormalFont);
-        stageValue.setForeground(Color.white);
-        
-        gameStatPanel.add(stageLabel);
-        container.add(gameStatPanel);
-    }
-    
-    public void setPlayerStat(){
-        
-        timeValue.setText(""+time);
-        attndValue.setText("   "+attendance);
-        cgpaValue.setText(""+String.format("%.2f", CGPA));
-        friendsValue.setText(" "+friend);
-        
-        container.add(playerStatsPanel);
-    }
-    
-    public void choiceButtonPanel(){
-        choiceButtonPanel = new JPanel();
-        choiceButtonPanel.setBounds((int)Math.ceil(width/3.4), (int)Math.ceil(height/2.15), (int)Math.ceil(width/2.4), (int)Math.ceil(height/4.32));
-        choiceButtonPanel.setBackground(Color.decode("#280a68"));
-        choiceButtonPanel.setLayout(new GridLayout(4,1));
-        choiceButtonPanel.setVisible(true);
-        container.add(choiceButtonPanel);
-    }
-    
-    public void buttons(){
+    //Choice buttons
+    public void choiceButtons(){
         choice1 = new JButton();
         choice1.setBackground(Color.decode("#a70c70"));
         choice1.setForeground(Color.white);
@@ -251,7 +121,8 @@ public class Game {
         choice4.addActionListener(choiceHandler);
     }
     
-    public void contButton(){
+    //Continue story button
+    public void continueButton(){
         contStoryPanel = new JPanel();
         contStoryPanel.setBounds((int)Math.ceil(width/3.4), (int)Math.ceil(height/2), (int)Math.ceil(width/2.4), (int)Math.ceil(height/4.32));
         contStoryPanel.setBackground(Color.decode("#280a68"));
@@ -268,7 +139,8 @@ public class Game {
         container.add(contStoryPanel);
     }
     
-    public void introduction(){
+    //Getting student's name
+    public void studentName(){
         titlePanel.setVisible(false);
         startButtonPanel.setVisible(false);
        
@@ -314,6 +186,7 @@ public class Game {
         container.add(inputPanel);
     }
     
+    //Summary of the effect a choice brings    ------------- W O R K      H E R E
     public void summary(String text){
         setPlayerStat();
         resetStoryPanel();
@@ -378,6 +251,7 @@ public class Game {
         
         } else if(contStoryCount>=2){
             resetStoryPanel(); //Removing previous story
+            gameStatPanel();
             setPlayerStat();
             text = "As the familiar routine of classes resumes, you find yourself once again at a crossroads.\nWhat do you want to do?";
             contStoryPanel.setVisible(false); //Hiding story continue button
@@ -388,7 +262,7 @@ public class Game {
        
         //Adding Choice Buttons
         choiceButtonPanel();
-        buttons();
+        choiceButtons();
         
         //Attend Button
         choice1.setText("Attend Class");
@@ -429,7 +303,7 @@ public class Game {
 
         //Choice Buttons
         choiceButtonPanel();
-        buttons();
+        choiceButtons();
 
         //Finish Homework Button
         choice1.setText("Finish Homework");
@@ -470,7 +344,7 @@ public class Game {
 
         //Choice Buttons
         choiceButtonPanel();
-        buttons();
+        choiceButtons();
         
         //Math Club button
         choice1.setText("Math Club");
@@ -504,7 +378,7 @@ public class Game {
 
         //Choice Buttons
         choiceButtonPanel();
-        buttons();
+        choiceButtons();
 
         //Attend the test button
         choice1.setText("Attend The Test");
@@ -542,7 +416,7 @@ public class Game {
         
         //Choice Buttons
         choiceButtonPanel();
-        buttons();
+        choiceButtons();
 
         if(club.length()>=1){
             //Do Club Work
@@ -586,7 +460,7 @@ public class Game {
                 timer2.start();
                 CGPA-=0.5;
                 if(CGPA<0) CGPA=0;
-                contButton();
+                continueButton();
             } else {
                 text = "Midterms are finally here. What choice will you make?";
             }
@@ -597,7 +471,7 @@ public class Game {
                 timer2.start();
                 CGPA-=2.0;
                 if(CGPA<0) CGPA=0;
-                contButton();
+                continueButton();
             } else {
                 text = "The finals are finally here. How do you plan on proceeding?";
             }
@@ -608,7 +482,7 @@ public class Game {
 
         //Choice Buttons
         choiceButtonPanel();
-        buttons();
+        choiceButtons();
 
         //attend honestly
         choice1.setText("Attend Honestly");
@@ -642,7 +516,7 @@ public class Game {
         
         //Choice Buttons
         choiceButtonPanel();
-        buttons();
+        choiceButtons();
         
         //Go on the trip
         choice1.setText("Go On The Trip");
@@ -682,7 +556,7 @@ public class Game {
             summary("You decide to attend the class, with a sense of determination to engage with the material and seize the opportunities the class offers");
         }
         choiceButtonPanel.setVisible(false); //hiding the choice panel
-        contButton(); //showing the continue story button
+        continueButton(); //showing the continue story button
     }
     
     public void library(){
@@ -696,7 +570,7 @@ public class Game {
             summary("You decide to spend the time in the library, looking through academic materials.");
         }
         choiceButtonPanel.setVisible(false); //hiding the choice panel
-        contButton(); //showing the continue story button
+        continueButton(); //showing the continue story button
     }
     
     public void skip(){
@@ -714,7 +588,7 @@ public class Game {
         } else
             summary("You decide to skip the class and prioritise a task of greater importance to you.");
         choiceButtonPanel.setVisible(false); //hiding the choice panel
-        contButton(); //showing the continue story button
+        continueButton(); //showing the continue story button
     }
     
     public void cheat(){
@@ -748,7 +622,7 @@ public class Game {
             }
         }
         choiceButtonPanel.setVisible(false); //hiding the choice panel
-        contButton(); //showing the continue story button
+        continueButton(); //showing the continue story button
     }
     
     public void homework() {
@@ -758,7 +632,7 @@ public class Game {
         time-=10; //reduce time by 10
         summary("You use the break to finish up some homework assignments, determined to stay on top of your studies.");
         choiceButtonPanel.setVisible(false); //hiding the choice panel
-        contButton(); //showing the continue story button
+        continueButton(); //showing the continue story button
     }
 
     public void hangout() {
@@ -766,14 +640,14 @@ public class Game {
         friend+=ThreadLocalRandom.current().nextInt(1, 2 + 1); //increase friend by a random number between 0 to 2
         summary("You decided to take a break and hangout with your friends, enjoying some quality time and fun activities. You can feel your bond strengthening.");
         choiceButtonPanel.setVisible(false); //hiding the choice panel
-        contButton(); //showing the continue story button
+        continueButton(); //showing the continue story button
     }
     
     public void noClub() {
         awards+="Nothing Fazes Me";
         summary("With your schedule already packed, you decide to focus on your academics and forgo joining any clubs.");
         choiceButtonPanel.setVisible(false); //hiding the choice panel
-        contButton(); //showing the continue story button
+        continueButton(); //showing the continue story button
     }
 
     public void mathClub() {
@@ -786,7 +660,7 @@ public class Game {
         friend+=ThreadLocalRandom.current().nextInt(1, 2 + 1); //increase friend by a random number between 1 to 2
         summary("Intrigued by your love for mathematics, you decide to join the Math Club to meet like-minded individuals and participate in math-related activities.");
         choiceButtonPanel.setVisible(false); //hiding the choice panel
-        contButton(); //showing the continue story button
+        continueButton(); //showing the continue story button
     }
 
     public void pccClub() {
@@ -799,7 +673,7 @@ public class Game {
         friend+=ThreadLocalRandom.current().nextInt(1, 2 + 1); //increase friend by a random number between 1 to 2
         summary("With a passion for coding, you eagerly sign up for the Programming Contest Club to sharpen your programming skills and compete in coding competitions.");
         choiceButtonPanel.setVisible(false); //hiding the choice panel
-        contButton(); //showing the continue story button
+        continueButton(); //showing the continue story button
     }
     
     public void clubActivity(){
@@ -834,13 +708,13 @@ public class Game {
                     break;
         }*/
         choiceButtonPanel.setVisible(false); //hiding the choice panel
-        contButton(); //showing the continue story button
+        continueButton(); //showing the continue story button
     }
     
     public class MainScreenHandler implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent event){
-            introduction();
+            studentName();
         }
     }
     
