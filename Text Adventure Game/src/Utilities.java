@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,19 +13,23 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 
 class Utilities extends Student {
+    
+    //Used for calculations
+    String text;  int i = 0, contStoryCount = 0;
     
     //All the utilities defined
     Container container;
     JFrame mainWindow;
-    JPanel titlePanel, startButtonPanel, storyPanel, inputTextPanel, inputPanel, contButtonPanel;
-    JPanel choiceButtonPanel, playerStatsPanel, contStoryPanel, gameStatPanel;
-    JButton startButton, enter, contButton, choice1, choice2, choice3, choice4, contStory;
+    JPanel titlePanel, startButtonPanel, storyPanel, inputNamePanel, continueButtonPanel;
+    JPanel choiceButtonPanel, playerStatsPanel, continueStoryButtonPanel, gameStatPanel;
+    JButton startButton, enter, continueButton, choice1, choice2, choice3, choice4, continueStoryButton;
     JLabel titleText, timeLabel, timeValue, attndLabel, attndValue, cgpaLabel, cgpaValue, friendsLabel, friendsValue;
     JLabel stageValue, stageLabel;
-    JTextArea storyText, inputText;
-    JTextField inputField;
+    JTextArea storyText;
+    JTextField inputNameField;
     
     //Getting screen dimensions
     Dimension size = Toolkit.getDefaultToolkit().getScreenSize(); 
@@ -37,8 +43,24 @@ class Utilities extends Student {
     Font normalFont = new Font("Calisto MT", Font.PLAIN, (int)Math.ceil(height/23));
     Font smallNormalFont = new Font("Calisto MT", Font.PLAIN, (int)Math.ceil(height/25.5));
     
-    //title panel
-    public void titlePanel(){
+    //Timer to delay story appearing character by character
+    Timer timer = new Timer(5, new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            char character[] = text.toCharArray();
+            int arrayLen = character.length;
+            String s = String.valueOf(character[i]);
+            storyText.append(s);
+            i++;
+            if(i == arrayLen){
+                i = 0;
+                timer.stop();
+            }
+        }
+    });
+    
+    //Title panel
+    public void addTitlePanel(){
         titlePanel = new JPanel();
         titlePanel.setBounds((int)Math.ceil(width/4.8), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.71), (int)Math.ceil(height/7.2)); //panel resolution
         titlePanel.setBackground(Color.decode("#a70c70")); //panel background colour
@@ -54,19 +76,67 @@ class Utilities extends Student {
     }
     
     //Start button panel
-    public void startButtonPanel(){
+    public void addStartButtonPanel(){
         startButtonPanel = new JPanel();
         startButtonPanel.setBounds((int)Math.ceil(width/2.6), (int)Math.ceil(height/2.16), (int)Math.ceil(width/4.9548), (int)Math.ceil(height/7.2));
         startButtonPanel.setBackground(Color.decode("#280a68"));
-        
-        //Adding Labels to Panels, then to container
-        startButtonPanel.add(startButton);
-        container.add(startButtonPanel);
-
+    }
+    
+    //Story Panel
+    public void addStoryPanel(){
+        storyPanel = new JPanel();
+        storyPanel.setBounds((int)Math.ceil(width/7.2), (int)Math.ceil(height/5.0), (int)Math.ceil(width/1.3), (int)Math.ceil(height/3.9));
+        storyPanel.setBackground(Color.decode("#280a68"));
+    }
+    
+    //Story Text
+    public void addStoryText(){
+        storyText = new JTextArea();
+        storyText.setBounds((int)Math.ceil(width/7.2), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.3), (int)Math.ceil(height/3.9));
+        storyText.setBackground(Color.decode("#280a68"));
+        storyText.setForeground(Color.white);
+        storyText.setFont(normalFont);
+        storyText.setLineWrap(true);
+        storyText.setWrapStyleWord(true);
+        storyPanel.add(storyText);
+        container.add(storyPanel);
+    }
+    
+    //Reset the story panel
+    public void resetStoryPanel(){
+        storyPanel.remove(storyText);
+        storyPanel.revalidate();
+        storyPanel = new JPanel();
+        storyPanel.setBounds((int)Math.ceil(width/7.4), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.3), (int)Math.ceil(height/5));
+        storyPanel.setBackground(Color.decode("#280a68"));
+        container.add(storyPanel);
+    }
+    
+    //Input Name Panel
+    public void addInputNamePanel(){
+        inputNamePanel = new JPanel();
+        inputNamePanel.setBounds((int)Math.ceil(width/5.1), (int)Math.ceil(height/2.16), (int)Math.ceil(width/1.6), (int)Math.ceil(height/10.8));
+        inputNamePanel.setBackground(Color.black);
+        inputNamePanel.setLayout(new GridLayout(1,2));
+    }
+    
+    //Input Field
+    public void addInputNameField(){
+        inputNameField = new JTextField();
+        inputNameField.setFont(normalFont);
+        inputNameField.setHorizontalAlignment(JTextField.CENTER);
+        inputNamePanel.add(inputNameField);
+    }
+    
+    //Continue Button Panel
+    public void addContinueButtonPanel(){
+        continueButtonPanel = new JPanel();
+        continueButtonPanel.setBounds((int)Math.ceil(width/2.6), (int)Math.ceil(height/2.16), (int)Math.ceil(width/4.9548), (int)Math.ceil(height/7.2));
+        continueButtonPanel.setBackground(Color.decode("#280a68"));
     }
     
     //Game statistics panel (at the top)
-    public void gameStatPanel(){
+    public void addGameStatPanel(){
         //Top game Stat Panel
         gameStatPanel = new JPanel();
         gameStatPanel.setBounds((int)Math.ceil(width/6), (int)Math.ceil(height/55), (int)Math.ceil(width/1.5), (int)Math.ceil(height/12));
@@ -87,7 +157,7 @@ class Utilities extends Student {
     }
 
     //Player statistics panel (at the top)
-    public void playerStatPanel(){
+    public void addPlayerStatPanel(){
         //Top Player Stat Panel
         playerStatsPanel = new JPanel();
         playerStatsPanel.setBorder(BorderFactory.createLineBorder(Color.white));
@@ -134,18 +204,8 @@ class Utilities extends Student {
         playerStatsPanel.add(friendsValue);
     }
     
-    //Story panel
-    public void resetStoryPanel(){
-        storyPanel.remove(storyText);
-        storyPanel.revalidate();
-        storyPanel = new JPanel();
-        storyPanel.setBounds((int)Math.ceil(width/7.4), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.3), (int)Math.ceil(height/5));
-        storyPanel.setBackground(Color.decode("#280a68"));
-        container.add(storyPanel);
-    }
-    
     //Choice panel
-    public void choiceButtonPanel(){
+    public void addChoiceButtonPanel(){
         choiceButtonPanel = new JPanel();
         choiceButtonPanel.setBounds((int)Math.ceil(width/3.4), (int)Math.ceil(height/2.15), (int)Math.ceil(width/2.4), (int)Math.ceil(height/4.32));
         choiceButtonPanel.setBackground(Color.decode("#280a68"));

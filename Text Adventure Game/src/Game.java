@@ -6,18 +6,10 @@ import java.awt.event.ActionListener;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import javax.swing.Timer;
 
-
-public class Game extends Stages {
-    
-    //Used for calculations
-    String text;  int i = 0, contStoryCount = 0;
+public class Game extends Buttons {
     
     //Handlers
     MainScreenHandler actionHandler = new MainScreenHandler();
@@ -35,155 +27,18 @@ public class Game extends Stages {
     public Game(){
         
         mainWindow = new JFrame();
-        mainWindow.setExtendedState(JFrame.MAXIMIZED_BOTH); //fullscreen
-        mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exits program by closing the window
-        mainWindow.getContentPane().setBackground(Color.decode("#280a68")); //sets background colour
-        mainWindow.setLayout(null); //for custom layout
-        mainWindow.setVisible(true); //makes it appear on screen
-        container = mainWindow.getContentPane(); //for title screen
+        mainWindow.setExtendedState(JFrame.MAXIMIZED_BOTH);             //fullscreen
+        mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);      //exits program by closing the window
+        mainWindow.getContentPane().setBackground(Color.decode("#280a68")); 
+        mainWindow.setLayout(null); 
+        mainWindow.setVisible(true); 
+        container = mainWindow.getContentPane(); 
         
-        titlePanel();       //shows the title
-        startButtonPanel(); //shows start button panel
-        startButton();      //shows the start button
+        addTitlePanel();       //shows the title
+        addStartButtonPanel(); //shows start button panel
+        addStartButton();         //shows the start button
         
         SwingUtilities.updateComponentTreeUI(mainWindow); //to make newly added components appear 
-    }
-    
-    Timer timer1 = new Timer(5, new ActionListener(){
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            char character[] = text.toCharArray();
-            int arrayLen = character.length;
-            String s = String.valueOf(character[i]);
-            inputText.append(s);
-            i++;
-            if(i == arrayLen){
-                i = 0;
-                timer1.stop();
-            }
-        }
-    });
-    
-    Timer timer2 = new Timer(5, new ActionListener(){
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            char character[] = text.toCharArray();
-            int arrayLen = character.length;
-            String s = String.valueOf(character[i]);
-            storyText.append(s);
-            i++;
-            if(i == arrayLen){
-                i = 0;
-                timer2.stop();
-            }
-        }
-    });
-    
-    //Start Game button
-    public void startButton(){
-        startButton = new JButton("S T A R T  G A M E");
-        startButton.setBackground(Color.decode("#280a68"));
-        startButton.setForeground(Color.white);
-        startButton.setFont(buttonFont);
-        startButton.setPreferredSize(new Dimension((int)Math.ceil(width/5.12), (int)Math.ceil(height/10.8)));
-        startButton.addActionListener(actionHandler);
-        startButton.setFocusPainted(false);
-    }
-    
-    //Choice buttons
-    public void choiceButtons(){
-        choice1 = new JButton();
-        choice1.setBackground(Color.decode("#a70c70"));
-        choice1.setForeground(Color.white);
-        choice1.setFont(choiceFont);
-        choice1.setFocusPainted(false);
-        choice1.addActionListener(choiceHandler);
-        
-        choice2 = new JButton();
-        choice2.setBackground(Color.decode("#a70c70"));
-        choice2.setForeground(Color.white);
-        choice2.setFont(choiceFont);
-        choice2.setFocusPainted(false);
-        choice2.addActionListener(choiceHandler);
-        
-        choice3 = new JButton();
-        choice3.setBackground(Color.decode("#a70c70"));
-        choice3.setForeground(Color.white);
-        choice3.setFont(choiceFont);
-        choice3.setFocusPainted(false);
-        choice3.addActionListener(choiceHandler);
-        
-        choice4 = new JButton();
-        choice4.setBackground(Color.decode("#a70c70"));
-        choice4.setForeground(Color.white);
-        choice4.setFont(choiceFont);
-        choice4.setFocusPainted(false);
-        choice4.addActionListener(choiceHandler);
-    }
-    
-    //Continue story button
-    public void continueButton(){
-        contStoryPanel = new JPanel();
-        contStoryPanel.setBounds((int)Math.ceil(width/3.4), (int)Math.ceil(height/2), (int)Math.ceil(width/2.4), (int)Math.ceil(height/4.32));
-        contStoryPanel.setBackground(Color.decode("#280a68"));
-        contStoryPanel.setLayout(new GridLayout(4,1));
-        
-        contStory = new JButton("Continue");
-        contStory.setBackground(Color.decode("#a70c70"));
-        contStory.setForeground(Color.white);
-        contStory.setFont(choiceFont);
-        contStory.setFocusPainted(false);
-        contStory.addActionListener(contStoryHandler);
-        
-        contStoryPanel.add(contStory);
-        container.add(contStoryPanel);
-    }
-    
-    //Getting student's name
-    public void studentName(){
-        titlePanel.setVisible(false);
-        startButtonPanel.setVisible(false);
-       
-        //Input Text Panel
-        inputTextPanel = new JPanel();
-        inputTextPanel.setBounds((int)Math.ceil(width/7.2), (int)Math.ceil(height/5.0), (int)Math.ceil(width/1.3), (int)Math.ceil(height/4.32));
-        inputTextPanel.setBackground(Color.decode("#280a68"));
-        
-        //Input Text
-        text = "Please enter your name: ";
-        inputText = new JTextArea();
-        inputText.setBounds((int)Math.ceil(width/7.2), (int)Math.ceil(height/5.0), (int)Math.ceil(width/1.3), (int)Math.ceil(height/4.32));
-        inputText.setBackground(Color.decode("#280a68"));
-        inputText.setForeground(Color.white);
-        inputText.setFont(normalFont);
-        inputText.setLineWrap(true);
-        inputText.setWrapStyleWord(true);
-        inputTextPanel.add(inputText);
-        container.add(inputTextPanel);
-        timer1.start();
-        
-        //Input Panel
-        inputPanel = new JPanel();
-        inputPanel.setBounds((int)Math.ceil(width/5.1), (int)Math.ceil(height/2.16), (int)Math.ceil(width/1.6), (int)Math.ceil(height/10.8));
-        inputPanel.setBackground(Color.black);
-        inputPanel.setLayout(new GridLayout(1,2));
-        
-        //Input Field
-        inputField = new JTextField();
-        inputField.setFont(normalFont);
-        inputField.setHorizontalAlignment(JTextField.CENTER);
-        inputPanel.add(inputField);
-        
-        //Enter Button
-        enter = new JButton("E N T E R");
-        //enter.setBackground(Color.decode("#280a68"));
-        enter.setForeground(Color.black);
-        enter.setFont(buttonFont);
-        enter.addActionListener(inputHandler);
-        enter.setFocusPainted(false);
-        
-        inputPanel.add(enter);
-        container.add(inputPanel);
     }
     
     //Summary of the effect a choice brings    ------------- W O R K      H E R E
@@ -193,47 +48,47 @@ public class Game extends Stages {
         this.text = text;
         setStoryText();
         i = 0;
-        timer2.start();
+        timer.start();
     }
     
-    public void stage1(){
+    //Getting student's name
+    public void gettingStudentName(){
+            titlePanel.setVisible(false);
+            startButtonPanel.setVisible(false);
+
+            text = "Please enter your name: ";
+            addStoryPanel();
+            setStoryText();
+            container.add(storyPanel);
+            timer.start();
+
+            addInputNamePanel();
+            addInputNameField();
+
+            addEnterButton();
+            enter.addActionListener(inputHandler);
+
+            inputNamePanel.add(enter);
+            container.add(inputNamePanel);
+        }
+    
+    
+    //------------------------- S T A G E S --------------------------
+    
+    
+    //Stage 1 : Student Initialization
+    public void stage1_welcomeStudent(){
         //Hiding input panel
-        inputPanel.setVisible(false);
-        inputTextPanel.setVisible(false);
+        inputNamePanel.setVisible(false);
         
-        //Story Panel
-        storyPanel = new JPanel();
-        storyPanel.setBounds((int)Math.ceil(width/7.2), (int)Math.ceil(height/5.0), (int)Math.ceil(width/1.3), (int)Math.ceil(height/3.9));
-        storyPanel.setBackground(Color.decode("#280a68"));
+        resetStoryPanel();
         
-        //Body
         text = "Welcome " + studentName + "! You are a new student at the University of Asia Pacific. Explore the opportunities that lie ahead, and make wise choices as you have limited time to balance academics, extracurricular activities, and personal growth. Good Luck!";
-        storyText = new JTextArea();
-        storyText.setBounds((int)Math.ceil(width/7.2), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.3), (int)Math.ceil(height/3.9));
-        storyText.setBackground(Color.decode("#280a68"));
-        storyText.setForeground(Color.white);
-        storyText.setFont(normalFont);
-        storyText.setLineWrap(true);
-        storyText.setWrapStyleWord(true);
-        storyPanel.add(storyText);
-        container.add(storyPanel);
-        timer2.start();
+        setStoryText();
+        timer.start();
         
-        //Continue Button Panel
-        contButtonPanel = new JPanel();
-        contButtonPanel.setBounds((int)Math.ceil(width/2.6), (int)Math.ceil(height/2.16), (int)Math.ceil(width/4.9548), (int)Math.ceil(height/7.2));
-        contButtonPanel.setBackground(Color.decode("#280a68"));
-        
-        //Continue Button
-        contButton = new JButton("C O N T I N U E");
-        contButton.setBackground(Color.decode("#280a68"));
-        contButton.setForeground(Color.white);
-        contButton.setFont(buttonFont);
-        contButton.setPreferredSize(new Dimension((int)Math.ceil(width/5.12), (int)Math.ceil(height/10.8)));
-        contButton.addActionListener(continueHandler);
-        contButton.setFocusPainted(false);
-        contButtonPanel.add(contButton);
-        container.add(contButtonPanel);
+        addContinueButtonPanel();
+        addContinueButton();
         
         //Updates the screen to show latest addition to the panels
         SwingUtilities.updateComponentTreeUI(mainWindow);
@@ -242,26 +97,26 @@ public class Game extends Stages {
     public void stage2(){
         
         if(contStoryCount<2){
-            contButtonPanel.setVisible(false); //Hiding Continue Button
+            continueButtonPanel.setVisible(false); //Hiding Continue Button
             resetStoryPanel(); //Removing previous story
-            playerStatPanel(); //Setting up player stat panel at the top
-            gameStatPanel();
+            addPlayerStatPanel(); //Setting up player stat panel at the top
+            addGameStatPanel();
             setPlayerStat();
             text = "You enter your first class at UAP. Seems like your teacher isn’t here yet.\nWhat do you want to do?";
         
         } else if(contStoryCount>=2){
             resetStoryPanel(); //Removing previous story
-            gameStatPanel();
+            addGameStatPanel();
             setPlayerStat();
             text = "As the familiar routine of classes resumes, you find yourself once again at a crossroads.\nWhat do you want to do?";
-            contStoryPanel.setVisible(false); //Hiding story continue button
+            continueStoryButtonPanel.setVisible(false); //Hiding story continue button
         }
         
         setStoryText();
-        timer2.start();
+        timer.start();
        
         //Adding Choice Buttons
-        choiceButtonPanel();
+        addChoiceButtonPanel();
         choiceButtons();
         
         //Attend Button
@@ -292,17 +147,17 @@ public class Game extends Stages {
     }
     
     public void stage3(){
-        contStoryPanel.setVisible(false); //Hiding story continue button
+        continueStoryButtonPanel.setVisible(false); //Hiding story continue button
         resetStoryPanel(); //resetting story panel
         setPlayerStat(); //updating status bar at the top
 
         //Body
         text = "During a break in your schedule, you have a chance to catch your breath and decide how to make the most of your free time.";
         setStoryText();
-        timer2.start();
+        timer.start();
 
         //Choice Buttons
-        choiceButtonPanel();
+        addChoiceButtonPanel();
         choiceButtons();
 
         //Finish Homework Button
@@ -333,17 +188,17 @@ public class Game extends Stages {
     }
     
     public void stage4(){
-        contStoryPanel.setVisible(false); //Hiding story continue button
+        continueStoryButtonPanel.setVisible(false); //Hiding story continue button
         resetStoryPanel(); //resetting story panel
         setPlayerStat(); //updating status bar at the top
 
         //Body
         text = "The first event of the semester is here! UAP is hosting a club fair in the Plaza. You're presented with the opportunity to explore various clubs on campus. Which club will you join?";
         setStoryText();
-        timer2.start();
+        timer.start();
 
         //Choice Buttons
-        choiceButtonPanel();
+        addChoiceButtonPanel();
         choiceButtons();
         
         //Math Club button
@@ -367,17 +222,17 @@ public class Game extends Stages {
     }
     
     public void stage6(){
-        contStoryPanel.setVisible(false); //Hiding story continue button
+        continueStoryButtonPanel.setVisible(false); //Hiding story continue button
         resetStoryPanel(); //resetting story panel
         setPlayerStat(); //updating status bar at the top
 
         //Body
         text = "With midterms approaching, your teacher announces a surprise class test.\nWhat do you want to do?";
         setStoryText();
-        timer2.start();
+        timer.start();
 
         //Choice Buttons
-        choiceButtonPanel();
+        addChoiceButtonPanel();
         choiceButtons();
 
         //Attend the test button
@@ -401,7 +256,7 @@ public class Game extends Stages {
     }
     
     public void stage8(){
-        contStoryPanel.setVisible(false); //Hiding story continue button
+        continueStoryButtonPanel.setVisible(false); //Hiding story continue button
         resetStoryPanel(); //resetting story panel
         setPlayerStat(); //updating status bar at the top
 
@@ -412,10 +267,10 @@ public class Game extends Stages {
             text = "As the end of the semester comes close, The Math Club is hosting a math olympiad, while the Programming Contest Club is planning a hackathon. You have been invited to assist in organizing the event, or you can choose to participate. What will you do?";
 
         setStoryText();
-        timer2.start();
+        timer.start();
         
         //Choice Buttons
-        choiceButtonPanel();
+        addChoiceButtonPanel();
         choiceButtons();
 
         if(club.length()>=1){
@@ -449,7 +304,7 @@ public class Game extends Stages {
     }
     
     public void stage9(){
-        contStoryPanel.setVisible(false); //Hiding story continue button
+        continueStoryButtonPanel.setVisible(false); //Hiding story continue button
         resetStoryPanel(); //resetting story panel
         setPlayerStat(); //updating status bar at the top
         
@@ -457,10 +312,10 @@ public class Game extends Stages {
             if(attendance<1){
                 text = "Midterms are finally here. Unfortunately, due to low attendance, you did not get the permission to sit for the exam.\nBe careful next time.";
                 setStoryText();
-                timer2.start();
+                timer.start();
                 CGPA-=0.5;
                 if(CGPA<0) CGPA=0;
-                continueButton();
+                addContinueStoryButton();
             } else {
                 text = "Midterms are finally here. What choice will you make?";
             }
@@ -468,20 +323,20 @@ public class Game extends Stages {
             if(attendance<3){
                 text = "The finals are finally here. Unfortunately, due to low attendance, you did not get the permission to sit for the exam. This automatically results in a semester drop for you.\nSee you next time...";
                 setStoryText();
-                timer2.start();
+                timer.start();
                 CGPA-=2.0;
                 if(CGPA<0) CGPA=0;
-                continueButton();
+                addContinueStoryButton();
             } else {
                 text = "The finals are finally here. How do you plan on proceeding?";
             }
         }
         
         setStoryText();
-        timer2.start();
+        timer.start();
 
         //Choice Buttons
-        choiceButtonPanel();
+        addChoiceButtonPanel();
         choiceButtons();
 
         //attend honestly
@@ -505,17 +360,17 @@ public class Game extends Stages {
     }
     
     public void stage13(){
-        contStoryPanel.setVisible(false); //Hiding story continue button
+        continueStoryButtonPanel.setVisible(false); //Hiding story continue button
         resetStoryPanel(); //resetting story panel
         setPlayerStat(); //updating status bar at the top
 
         //Body
         text = "It's the final stretch of the semester, and you're feeling the pressure. With finals approaching, you must weigh the importance of studying against the opportunity to relax and bond with friends on a road trip.\nWhat will you do?";
         setStoryText();
-        timer2.start();
+        timer.start();
         
         //Choice Buttons
-        choiceButtonPanel();
+        addChoiceButtonPanel();
         choiceButtons();
         
         //Go on the trip
@@ -532,6 +387,10 @@ public class Game extends Stages {
         
         container.revalidate(); //refresh
     }
+    
+    
+    //------------------------ C H O I C E S --------------------------
+    
     
     public void attend(){
         time-=10; //reduces time by 10
@@ -556,7 +415,7 @@ public class Game extends Stages {
             summary("You decide to attend the class, with a sense of determination to engage with the material and seize the opportunities the class offers");
         }
         choiceButtonPanel.setVisible(false); //hiding the choice panel
-        continueButton(); //showing the continue story button
+        addContinueStoryButton(); //showing the continue story button
     }
     
     public void library(){
@@ -570,7 +429,7 @@ public class Game extends Stages {
             summary("You decide to spend the time in the library, looking through academic materials.");
         }
         choiceButtonPanel.setVisible(false); //hiding the choice panel
-        continueButton(); //showing the continue story button
+        addContinueStoryButton(); //showing the continue story button
     }
     
     public void skip(){
@@ -588,7 +447,7 @@ public class Game extends Stages {
         } else
             summary("You decide to skip the class and prioritise a task of greater importance to you.");
         choiceButtonPanel.setVisible(false); //hiding the choice panel
-        continueButton(); //showing the continue story button
+        addContinueStoryButton(); //showing the continue story button
     }
     
     public void cheat(){
@@ -622,7 +481,7 @@ public class Game extends Stages {
             }
         }
         choiceButtonPanel.setVisible(false); //hiding the choice panel
-        continueButton(); //showing the continue story button
+        addContinueStoryButton(); //showing the continue story button
     }
     
     public void homework() {
@@ -632,7 +491,7 @@ public class Game extends Stages {
         time-=10; //reduce time by 10
         summary("You use the break to finish up some homework assignments, determined to stay on top of your studies.");
         choiceButtonPanel.setVisible(false); //hiding the choice panel
-        continueButton(); //showing the continue story button
+        addContinueStoryButton(); //showing the continue story button
     }
 
     public void hangout() {
@@ -640,14 +499,14 @@ public class Game extends Stages {
         friend+=ThreadLocalRandom.current().nextInt(1, 2 + 1); //increase friend by a random number between 0 to 2
         summary("You decided to take a break and hangout with your friends, enjoying some quality time and fun activities. You can feel your bond strengthening.");
         choiceButtonPanel.setVisible(false); //hiding the choice panel
-        continueButton(); //showing the continue story button
+        addContinueStoryButton(); //showing the continue story button
     }
     
     public void noClub() {
         awards+="Nothing Fazes Me";
         summary("With your schedule already packed, you decide to focus on your academics and forgo joining any clubs.");
         choiceButtonPanel.setVisible(false); //hiding the choice panel
-        continueButton(); //showing the continue story button
+        addContinueStoryButton(); //showing the continue story button
     }
 
     public void mathClub() {
@@ -660,7 +519,7 @@ public class Game extends Stages {
         friend+=ThreadLocalRandom.current().nextInt(1, 2 + 1); //increase friend by a random number between 1 to 2
         summary("Intrigued by your love for mathematics, you decide to join the Math Club to meet like-minded individuals and participate in math-related activities.");
         choiceButtonPanel.setVisible(false); //hiding the choice panel
-        continueButton(); //showing the continue story button
+        addContinueStoryButton(); //showing the continue story button
     }
 
     public void pccClub() {
@@ -673,7 +532,7 @@ public class Game extends Stages {
         friend+=ThreadLocalRandom.current().nextInt(1, 2 + 1); //increase friend by a random number between 1 to 2
         summary("With a passion for coding, you eagerly sign up for the Programming Contest Club to sharpen your programming skills and compete in coding competitions.");
         choiceButtonPanel.setVisible(false); //hiding the choice panel
-        continueButton(); //showing the continue story button
+        addContinueStoryButton(); //showing the continue story button
     }
     
     public void clubActivity(){
@@ -708,29 +567,33 @@ public class Game extends Stages {
                     break;
         }*/
         choiceButtonPanel.setVisible(false); //hiding the choice panel
-        continueButton(); //showing the continue story button
+        addContinueStoryButton(); //showing the continue story button
     }
+    
+    
+    //------------------------ H A N D L E R S --------------------------
+
     
     public class MainScreenHandler implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent event){
-            studentName();
+            gettingStudentName();
         }
     }
     
     public class InputHandler implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent event){
-            String name = inputField.getText();
+            String name = inputNameField.getText();
             studentName = name;
-            stage1();
+            stage1_welcomeStudent();
         }
     }
     
     public class ContinueHandler implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent event){
-            timer2.stop();
+            timer.stop();
             i=0;
             stage2();
         }
@@ -817,6 +680,87 @@ public class Game extends Stages {
                     break;
             }
         }
+    }
+    
+    
+    //------------------------- B U T T O N S --------------------------
+    
+    
+    //Start Game button
+    public void addStartButton(){
+        startButton = new JButton("S T A R T  G A M E");
+        startButton.setBackground(Color.decode("#280a68"));
+        startButton.setForeground(Color.white);
+        startButton.setFont(buttonFont);
+        startButton.setPreferredSize(new Dimension((int)Math.ceil(width/5.12), (int)Math.ceil(height/10.8)));
+        startButton.addActionListener(actionHandler);
+        startButton.setFocusPainted(false);
+        
+        //Adding Labels to Panels, then to container
+        startButtonPanel.add(startButton);
+        container.add(startButtonPanel);
+    }
+    
+    //Choice buttons
+    public void choiceButtons(){
+        choice1 = new JButton();
+        choice1.setBackground(Color.decode("#a70c70"));
+        choice1.setForeground(Color.white);
+        choice1.setFont(choiceFont);
+        choice1.setFocusPainted(false);
+        choice1.addActionListener(choiceHandler);
+        
+        choice2 = new JButton();
+        choice2.setBackground(Color.decode("#a70c70"));
+        choice2.setForeground(Color.white);
+        choice2.setFont(choiceFont);
+        choice2.setFocusPainted(false);
+        choice2.addActionListener(choiceHandler);
+        
+        choice3 = new JButton();
+        choice3.setBackground(Color.decode("#a70c70"));
+        choice3.setForeground(Color.white);
+        choice3.setFont(choiceFont);
+        choice3.setFocusPainted(false);
+        choice3.addActionListener(choiceHandler);
+        
+        choice4 = new JButton();
+        choice4.setBackground(Color.decode("#a70c70"));
+        choice4.setForeground(Color.white);
+        choice4.setFont(choiceFont);
+        choice4.setFocusPainted(false);
+        choice4.addActionListener(choiceHandler);
+    }
+    
+    //Continue story button
+    public void addContinueStoryButton(){
+        continueStoryButtonPanel = new JPanel();
+        continueStoryButtonPanel.setBounds((int)Math.ceil(width/3.4), (int)Math.ceil(height/2), (int)Math.ceil(width/2.4), (int)Math.ceil(height/4.32));
+        continueStoryButtonPanel.setBackground(Color.decode("#280a68"));
+        continueStoryButtonPanel.setLayout(new GridLayout(4,1));
+        
+        continueStoryButton = new JButton("Continue");
+        continueStoryButton.setBackground(Color.decode("#a70c70"));
+        continueStoryButton.setForeground(Color.white);
+        continueStoryButton.setFont(choiceFont);
+        continueStoryButton.setFocusPainted(false);
+        continueStoryButton.addActionListener(contStoryHandler);
+        
+        continueStoryButtonPanel.add(continueStoryButton);
+        container.add(continueStoryButtonPanel);
+    }
+    
+    //A single continue button (used once)
+    public void addContinueButton(){
+        continueButton = new JButton("C O N T I N U E");
+        continueButton.setBackground(Color.decode("#280a68"));
+        continueButton.setForeground(Color.white);
+        continueButton.setFont(buttonFont);
+        continueButton.setPreferredSize(new Dimension((int)Math.ceil(width/5.12), (int)Math.ceil(height/12)));
+        continueButton.addActionListener(continueHandler);
+        continueButton.setFocusPainted(false);
+        continueButtonPanel.add(continueButton);
+        container.add(continueButtonPanel);
     }
     
     
