@@ -14,6 +14,7 @@ public class UpdateHandler extends Utilities{
         storyText.setLineWrap(true);
         storyText.setWrapStyleWord(true);
         storyText.getCaret().setVisible(false);
+        storyText.setCaretColor(Color.decode("#280a68"));
         storyPanel.add(storyText);
     }
     

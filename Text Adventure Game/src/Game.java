@@ -482,14 +482,28 @@ public class Game extends Buttons {
     } //------------- W O R K      H E R E
     
     public void library(){
-        time-=10; //reduces time by 10
-        CGPA+=0.5;
-        if(CGPA>4) CGPA=4;
-        study++;
+        time -= 10;   //reduces time by 10
+        ftemp = 0.5;
+        study+=0.5;
+        
+        //Summary Texts
         if(stageCount==6){
-            summary("With midterms approaching, you prioritize studying and preparing for your exams to ensure academic success.");
-        } else {
-            summary("You decide to spend the time in the library, looking through academic materials.");
+            summaryText = "With mid term approaching, you prioritize studying and preparing for your exams to ensure academic success.";
+        } else if(stageCount==11)
+            summaryText = "With final term approaching, you prioritize studying and preparing for your exams to ensure academic success.";
+      } else {
+            summaryText = "You decide to spend the time in the library, looking through academic materials.";
+        }
+        
+        //Attribute Changes
+        switch(stageCount){
+            case 2:
+                break;
+            default:
+                changes = "CGPA : +"+String.format("%.2f", ftemp)+"\n";
+                CGPA+=ftemp;
+                if(CGPA>4) CGPA=4;
+                break;
         }
         
         addChoiceUtilities();
@@ -550,7 +564,11 @@ public class Game extends Buttons {
         temp = ThreadLocalRandom.current().nextInt(1, 2 + 1); //increase friend by a random number between 0 to 2
         
         //Summary Texts
-        summaryText = "You decided to take a break and hangout with your friends, enjoying some quality time and fun activities. You can feel your bond strengthening.";
+        if(stageCount==2){
+            summaryText = "You decide to hangout with the new friends you have made, wallking around campus exploring the area.";
+        } else {
+            summaryText = "You decide to take a break and hangout with your friends, enjoying some quality time and fun activities. You can feel your bond strengthening.";
+        }
         
         //Attribute Changes
         changes = "Friend : +"+temp;
