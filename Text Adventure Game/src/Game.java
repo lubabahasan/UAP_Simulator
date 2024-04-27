@@ -274,7 +274,7 @@ public class Game extends Buttons {
 
         //Body
         if(stageCount==8)
-            text = "As the semester progresses, the students of UAP involve themselves in arranging several different events, creating a joyous atmosphere.\nWhat do you plan to do?";
+            text = "As the semester progresses, the students of UAP involve themselves in arranging several different events, creating a joyous atmosphere. ";
         else
             text = "As the end of the semester comes close, The Math Club is hosting a math olympiad, while the Programming Contest Club is planning a hackathon.";
         
@@ -314,7 +314,7 @@ public class Game extends Buttons {
         choiceButtonPanel.add(choice2);
         choiceButtonPanel.add(choice3);
         
-    }  //------------- W O R K      H E R E
+    }  
     
     //Stage 9,14 : Term Exam
     public void stage9_TermExam(){
@@ -334,6 +334,8 @@ public class Game extends Buttons {
                 setStoryText();
                 timer.start();
                 addContinueStoryButton();
+                continueStoryButton.addActionListener(continueStoryHandler);
+            
             } else {
                 text = "Midterm exams are finally here. What choice will you make?";
                 flag = 1;
@@ -380,7 +382,7 @@ public class Game extends Buttons {
 
         
         
-    }  //------------- W O R K      H E R E
+    }  
     
     //Stage 13 : Relax
     public void stage13_Relax(){
@@ -412,7 +414,7 @@ public class Game extends Buttons {
         choiceButtonPanel.add(choice1);
         choiceButtonPanel.add(choice2);
         
-    } //------------- W O R K      H E R E
+    } 
     
     //Stage 15 : End of Semester
     public void stage15_SemesterEnds(){
@@ -445,6 +447,7 @@ public class Game extends Buttons {
         choiceButtonPanel.add(choice2);
         
     } 
+    
     
     //------------------------ C H O I C E S --------------------------
     
@@ -503,7 +506,7 @@ public class Game extends Buttons {
         
         addChoiceUtilities();
         
-    }  //------------- W O R K      H E R E
+    }  
     
     public void skip(){
         time-=10;  //reduces time by 10
@@ -551,7 +554,7 @@ public class Game extends Buttons {
         
         addChoiceUtilities();
         
-    } //------------- W O R K      H E R E
+    } 
     
     public void library(){
         time -= 10;   //reduces time by 10
@@ -582,7 +585,7 @@ public class Game extends Buttons {
         
         addChoiceUtilities();
         
-    } //------------- W O R K      H E R E
+    } 
   
     public void cheat(){
         changes = " ";
@@ -663,7 +666,7 @@ public class Game extends Buttons {
         
         addChoiceUtilities();
         
-    } //------------- W O R K      H E R E
+    } 
     
     public void homework() {
         ftemp = 0.25; 
@@ -702,7 +705,7 @@ public class Game extends Buttons {
         
         addChoiceUtilities();
         
-    } //------------- W O R K      H E R E
+    } 
     
     public void clubActivity(){
         time -= 10; //reduce time by 10
@@ -734,14 +737,15 @@ public class Game extends Buttons {
             case 5:
                 summaryText = "Since you've joined the "+club+", you decide to spend your break attending a club meeting and discussing upcoming activities and events.";
                 break;
-            case 6:
+            case 6, 11:
                 summaryText = "You continue to participate in club activities during your breaks, enjoying the camaraderie and sense of belonging that comes with being part of the "+club+".";
                 break;
-            case 8:
+            case 8, 12:
                 if(club.length()>1)
                     summaryText = "As a member of the "+club+", you help organize and promote the club's events, contributing to its success and growth.";
                 else
                     summaryText = "You help organize and promote the club events as a volunteer, contributing to their success and growth.";
+                summaryText += " However, everything comes at a cost...";
                 break;
             default:
                 break;
@@ -755,7 +759,7 @@ public class Game extends Buttons {
         
         addChoiceUtilities();
         
-    } //------------- W O R K      H E R E
+    } 
     
     public void Club(String club) {
         time -= 10; //reduce time by 10
@@ -925,6 +929,8 @@ public class Game extends Buttons {
             }
         }
     } //------------- W O R K      H E R E
+    
+    //-----------------  B L O C K S   O F   C O D E  ---------------
     
     public void addChoiceHandler(){
         choice1.addActionListener(choiceHandler);
