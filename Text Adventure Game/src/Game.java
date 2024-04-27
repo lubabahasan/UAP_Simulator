@@ -30,7 +30,6 @@ public class Game extends Buttons {
         mainWindow.setExtendedState(JFrame.MAXIMIZED_BOTH);             //fullscreen
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);      //exits program by closing the window
         mainWindow.getContentPane().setBackground(Color.decode("#280a68")); 
-        mainWindow.getContentPane().add(endButton); 
         mainWindow.setLayout(null); 
         mainWindow.setVisible(true);
         mainWindow.setFocusable(false);
@@ -450,6 +449,7 @@ public class Game extends Buttons {
         ftemp=0.75;      //for CGPA gained
         changes = " ";
         summaryText = " ";
+        achievement2 = " ";
         
         //Summary texts
         switch (stageCount) {
@@ -473,12 +473,18 @@ public class Game extends Buttons {
         //Attribute Changes
         switch(stageCount){
             case 7, 9, 14:
-                ftemp = (attendance*0.25)+(study*0.1);
+                if(stageCount==7)
+                    ftemp = (attendance*0.25)+(study*0.25);
+                else if(stageCount==9)
+                    ftemp = (attendance*0.15)+(study*0.15);
+                else
+                    ftemp = (attendance*0.1)+(study*0.15);
+                
                 if(ftemp>0){
-                    if(stageCount==14)
-                        CGPA=0;
                     changes = "CGPA : +"+String.format("%.2f", ftemp);
                     CGPA+=ftemp;
+                    if(CGPA>=4 || ftemp==0)
+                        changes = " ";
                     if(CGPA>4) CGPA=4;
                 }
                 break;
@@ -487,6 +493,7 @@ public class Game extends Buttons {
                 if(CGPA>=4 || ftemp==0)
                     changes = " ";
                 CGPA+=ftemp;
+                if(CGPA>4) CGPA=4;
                 temp = ThreadLocalRandom.current().nextInt(0, 2 + 1); //increase friend by a random number between 0 to 2
                 if(temp>0){
                     changes += "Friend : +"+temp;
@@ -609,7 +616,7 @@ public class Game extends Buttons {
                     ftemp = ThreadLocalRandom.current().nextFloat(0, 0.5f + 1);
                 } else {
                     summaryText += " Knowing the whereabouts of the course materials helps you with it.";
-                    ftemp = (attendance*0.1)+(study*0.1);
+                    ftemp = (attendance*0.2)+(study*0.2);
                 }
                 break;
             case 9:
@@ -622,7 +629,7 @@ public class Game extends Buttons {
                     ftemp = ThreadLocalRandom.current().nextFloat(0, 0.5f + 1);
                 } else {
                     summaryText += " Knowing the whereabouts of the course materials helps you with it.";
-                    ftemp = (attendance*0.15)+(study*0.15);
+                    ftemp = (attendance*0.25)+(study*0.25);
                 }
                 break;
             case 14:
@@ -634,7 +641,7 @@ public class Game extends Buttons {
                     achievement3 = "The Power of Friendship";
                     ftemp = ThreadLocalRandom.current().nextFloat(0, 0.5f + 1);
                 } else {
-                    ftemp = (attendance*0.2)+(study*0.2);
+                    ftemp = (attendance*0.5)+(study*0.5);
                 }
                 break;
             default:
@@ -652,7 +659,7 @@ public class Game extends Buttons {
             changes = "CGPA : "+String.format("%.2f", ftemp)+"\n";
             if(CGPA<0)
                 changes = " ";
-            CGPA-=ftemp;
+            CGPA+=ftemp;
             if(CGPA<0) CGPA = 0;
         
         addChoiceUtilities();
@@ -686,8 +693,12 @@ public class Game extends Buttons {
         //Summary Texts
         if(stageCount==2){
             summaryText = "You decide to take advantage of the break to hang out with some new friends you've made on campus.";
-        } else {
+        } else if(stageCount==3 || stageCount==6 || stageCount==11) {
             summaryText = "You decide to take a break and hangout with your friends, enjoying some quality time and fun activities. You can feel your bond strengthening.";
+        } else if(stageCount==13){
+            summaryText = "You decide to to go on the trip. As you explore new places and create unforgettable memories together, you feel the pressure of exams leaving your body."; 
+        } else {
+            summaryText = "You decide to take a break from your studies and spend time with your friends.";
         }
         
         //Attribute Changes
@@ -707,7 +718,7 @@ public class Game extends Buttons {
         
         //Summary Text
         switch(stageCount){
-            case 5:
+            case 5, 10:
                 summaryText = "Since you've joined the "+club+", you decide to spend your break attending a club meeting and discussing upcoming activities and events.";
                 break;
             case 6, 11:
@@ -785,7 +796,7 @@ public class Game extends Buttons {
         summaryText = " ";
         
         //Summary Text
-        summaryText = "You ";
+        summaryText = "Can't figure out what to add here ";
         
         //Attribute Changes
         changes = "CGPA : +"+ftemp;
@@ -941,6 +952,7 @@ public class Game extends Buttons {
         
         endButtonPanel.add(endButton);
         container.add(endButtonPanel);
+        mainWindow.getContentPane().add(endButton);
         
     }
     
