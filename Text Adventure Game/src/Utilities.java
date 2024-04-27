@@ -18,7 +18,7 @@ import javax.swing.Timer;
 class Utilities extends Student {
     
     //Used for calculations
-    String text = "", summaryText = "", changes = "";  int i = 0, stageCount = 2, temp; double ftemp;
+    String text = "", summaryText = "", changes = "";  int i = 0, stageCount = 2, temp, flag = 0; double ftemp;
     
     //All the utilities defined
     Container container;
