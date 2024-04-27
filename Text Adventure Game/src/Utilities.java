@@ -141,7 +141,7 @@ class Utilities extends Student {
     public void addGameStatPanel(){
         //Top game Stat Panel
         gameStatPanel = new JPanel();
-        gameStatPanel.setBounds((int)Math.ceil(width/6), (int)Math.ceil(height/55), (int)Math.ceil(width/1.5), (int)Math.ceil(height/12));
+        gameStatPanel.setBounds((int)Math.ceil(width/2.5), (int)Math.ceil(height/55), (int)Math.ceil(width/5), (int)Math.ceil(height/12));
         gameStatPanel.setBackground(Color.decode("#280a68"));
         gameStatPanel.setLayout(new GridLayout(1,4));
         

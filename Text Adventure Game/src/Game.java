@@ -297,26 +297,26 @@ public class Game extends Buttons {
 
         //Setting up choices
             //Study
-            choice3.setText("Study For Exam");
-            choice3.setActionCommand("library");
+            choice2.setText("Study For Exam");
+            choice2.setActionCommand("library");
 
-            //Participate In The Competitions
-            choice1.setText("Participate In Competitions");
-            choice1.setActionCommand("extra");
+            /*//Participate In The Competitions
+            choice3.setText("Participate In Competitions");
+            choice3.setActionCommand("extra");*/
 
             //Volunteer For The Events
             if(club.length()>1)
-                choice2.setText("Do Club Work");
+                choice1.setText("Do Club Work");
             else
-                choice2.setText("Volunteer For Events");
-            choice2.setActionCommand("clubActivity");
+                choice1.setText("Volunteer For Events");
+            choice1.setActionCommand("clubActivity");
 
             addChoiceHandler();
         
         //Adding buttons to panel
         choiceButtonPanel.add(choice1);
         choiceButtonPanel.add(choice2);
-        choiceButtonPanel.add(choice3);
+        //choiceButtonPanel.add(choice3);
         
     }   //lubaba
     
@@ -425,11 +425,10 @@ public class Game extends Buttons {
         continueStoryButtonPanel.setVisible(false); 
         resetStoryPanel(); 
         setPlayerStat(); 
-
+        int flag1 = 0;
+        
         //Body
-        text = "And with that, the semester comes to and end.";
-        setStoryText();
-        timer.start();
+        text = "And with that, the semester comes to an end...\nYou've earned the following achievements\n";
         
         if(club.length()>1){
             switch (clubActivity) {
@@ -450,6 +449,40 @@ public class Game extends Buttons {
         } else if(clubActivity!=0) {
             achievement5 = "Spirit of Service";
         }
+        
+        if(achievement1.length()>1){
+            text+="\n"+achievement1;
+            if(club.length()>1)
+                text+=" - What a journey it has been with the "+club+".\n";
+            else
+                text+=" - You have demonstrate exceptional resilience my friend. I commend you\n";
+            flag1 = 1;
+        }
+        if(achievement5.length()>1){
+            
+            if(club.length()>1)
+                text+="\n"+achievement5+" - Your hard work towards the club has been rewarded. You've been promoted to the "+achievement5+" of the "+club+". Congratulations!\n";
+            else
+                text+="\n"+achievement5+" - Thank you for all the help with the events comrade\n";
+            flag1 = 1;
+        }
+        if(achievement3.length()>1){
+            text+="\n"+achievement3+" - You've made the impossible possible. I commend you\n";
+            flag1 = 1;
+        }
+        if(achievement4.length()>1){
+            text+="\n"+achievement4+" - \"Maybe The Real Treasure Was the Friends We Made Along the Way. :>\"\n";
+            flag1 = 1;
+        }
+        if(achievement2.length()>1){
+            text+="\n"+achievement2+" - You've made the impossible possible. I commend you\n";
+            flag1 = 1;
+        }
+        
+        setStoryText();
+        storyText.setBounds((int)Math.ceil(width/7.4), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.3), (int)Math.ceil(height/1.2));
+        storyPanel.setBounds((int)Math.ceil(width/7.2), (int)Math.ceil(height/5.0), (int)Math.ceil(width/1.3), (int)Math.ceil(height/1.2));
+        timer.start();
         
         //Setting up buttons
             addEndButton();
