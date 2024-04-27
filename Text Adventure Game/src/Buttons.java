@@ -43,7 +43,7 @@ public class Buttons extends UpdateHandler{
         enter.setFocusPainted(true);
         enter.setFocusable(true);
         
-        //Binding the enter key to the button
+        /*//Binding the enter key to the button
         KeyStroke enterKey = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false);
         enter.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(enterKey, "clickEnter");
         enter.getActionMap().put("clickEnter", new AbstractAction() {
@@ -51,7 +51,7 @@ public class Buttons extends UpdateHandler{
             public void actionPerformed(ActionEvent e) {
                 enter.doClick();
             }
-        });
+        });*/
     }
     
     //A single continue button (used once)
@@ -65,7 +65,7 @@ public class Buttons extends UpdateHandler{
         continueButtonPanel.add(continueButton);
         container.add(continueButtonPanel);
         
-        //Binding the enter key to the button
+        /*//Binding the enter key to the button
         KeyStroke enterKey = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false);
         continueButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(enterKey, "clickEnter");
         continueButton.getActionMap().put("clickEnter", new AbstractAction() {
@@ -73,7 +73,7 @@ public class Buttons extends UpdateHandler{
             public void actionPerformed(ActionEvent e) {
                 continueButton.doClick();
             }
-        });
+        });*/
         
     }
     

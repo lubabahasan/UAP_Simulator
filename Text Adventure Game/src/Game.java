@@ -41,7 +41,7 @@ public class Game extends Buttons {
         startButton.addActionListener(actionHandler);
 
         SwingUtilities.updateComponentTreeUI(mainWindow); //to make newly added components appear 
-    }
+    }   //lubaba
     
     //Summary of the effect a choice brings    ------------- W O R K      H E R E
     public void summary(String text, String changes){
@@ -52,7 +52,7 @@ public class Game extends Buttons {
         setStoryText();
         i = 0;
         timer.start();
-    }
+    }  //nujhat
     
     //Getting student's name
     public void gettingStudentName(){
@@ -73,7 +73,7 @@ public class Game extends Buttons {
 
             inputNamePanel.add(enter);
             container.add(inputNamePanel);
-        }
+        }   //rifah
     
     
     //------------------------- S T A G E S --------------------------
@@ -96,7 +96,7 @@ public class Game extends Buttons {
         
         //Updates the screen to show latest addition to the panels
         SwingUtilities.updateComponentTreeUI(mainWindow);
-    }
+    }  //rahi
     
     //Stage 2,5,10 : Class
     public void stage2_Class(){
@@ -150,7 +150,7 @@ public class Game extends Buttons {
         choiceButtonPanel.add(choice2);
         choiceButtonPanel.add(choice3);
         
-    }  
+    }    //nujhat
     
     //Stage 3,6,11 : Break
     public void stage3_Break(){
@@ -194,7 +194,7 @@ public class Game extends Buttons {
         choiceButtonPanel.add(choice2);
         choiceButtonPanel.add(choice3);
         
-    }
+    }     //rifah
     
     //Stage 4 : Club Fair
     public void stage4_ClubFair(){
@@ -231,7 +231,7 @@ public class Game extends Buttons {
         choiceButtonPanel.add(choice2);
         choiceButtonPanel.add(choice3);
         
-    } 
+    }   //nujhat
     
     //Stage 7 : Class Test
     public void stage7_ClassTest(){
@@ -268,7 +268,7 @@ public class Game extends Buttons {
         choiceButtonPanel.add(choice2);
         choiceButtonPanel.add(choice3);
         
-    }  
+    }   //rifah
     
     //Stage 8,12 : Club Event
     public void stage8_ClubEvent(){
@@ -318,7 +318,7 @@ public class Game extends Buttons {
         choiceButtonPanel.add(choice2);
         choiceButtonPanel.add(choice3);
         
-    }  
+    }   //lubaba
     
     //Stage 9,14 : Term Exam
     public void stage9_TermExam(){
@@ -386,7 +386,7 @@ public class Game extends Buttons {
 
         
         
-    }  
+    }    //lubaba
     
     //Stage 13 : Relax
     public void stage13_Relax(){
@@ -418,7 +418,7 @@ public class Game extends Buttons {
         choiceButtonPanel.add(choice1);
         choiceButtonPanel.add(choice2);
         
-    } 
+    }   //rahi
     
     //Stage 15 : End of Semester
     public void stage15_SemesterEnds(){
@@ -431,16 +431,35 @@ public class Game extends Buttons {
         setStoryText();
         timer.start();
         
+        if(club.length()>1){
+            switch (clubActivity) {
+                case 1:
+                    achievement5 = "Junior Executive Member";
+                    break;
+                case 2:
+                    achievement5 = "Senior Executive Member";
+                    break;
+                case 3:
+                    achievement5 = "Vice President";
+                    break;
+                default:
+                    if(clubActivity!=0)
+                        achievement5 = "President";
+                    break;
+            }
+        } else if(clubActivity!=0) {
+            achievement5 = "Spirit of Service";
+        }
+        
         //Setting up buttons
             addEndButton();
-            endButton.addActionListener(endHandler);
-            
         
-    } 
+        SwingUtilities.updateComponentTreeUI(mainWindow);
+
+    }    //lubaba
     
     
     //------------------------ C H O I C E S --------------------------
-    
     
     public void attend(){
         time-=10;       //reduces time by 10
@@ -504,7 +523,7 @@ public class Game extends Buttons {
         
         addChoiceUtilities();
         
-    }  
+    }    //nujhat
     
     public void skip(){
         time-=10;  //reduces time by 10
@@ -552,7 +571,7 @@ public class Game extends Buttons {
         
         addChoiceUtilities();
         
-    } 
+    }      //rahi
     
     public void library(){
         time -= 10;   //reduces time by 10
@@ -562,9 +581,9 @@ public class Game extends Buttons {
         summaryText = " ";
         
         //Summary Texts
-        if(stageCount==8){
+        if(stageCount==6){
             summaryText = "With mid term approaching, you prioritize studying and preparing for your exams to ensure academic success.";
-        } else if (stageCount>8){
+        } else if (stageCount==11 || stageCount==13){
             summaryText = "With final term approaching, you prioritize studying and preparing for your exams to ensure academic success.";
         } else {
             summaryText = "You decide to spend the time in the library, looking through academic materials.";
@@ -583,7 +602,7 @@ public class Game extends Buttons {
         
         addChoiceUtilities();
         
-    } 
+    }     //rifah
   
     public void cheat(){
         changes = " ";
@@ -633,7 +652,7 @@ public class Game extends Buttons {
                 }
                 break;
             case 14:
-                if(study<1) {
+                if(study<1 && friend<7) {
                     summaryText += " The invigilator catches you in the process and deducts marks from your paper.";
                     ftemp = -0.5;
                 } else if(friend>=9){
@@ -641,7 +660,7 @@ public class Game extends Buttons {
                     achievement3 = "The Power of Friendship";
                     ftemp = ThreadLocalRandom.current().nextFloat(0, 0.5f + 1);
                 } else {
-                    ftemp = (attendance*0.5)+(study*0.5);
+                    ftemp = (attendance*0.15)+(study*0.15);
                 }
                 break;
             default:
@@ -664,7 +683,7 @@ public class Game extends Buttons {
         
         addChoiceUtilities();
         
-    } 
+    }       //lubaba
     
     public void homework() {
         ftemp = 0.25; 
@@ -682,7 +701,7 @@ public class Game extends Buttons {
         
         addChoiceUtilities();
         
-    } 
+    }  //nujhat
 
     public void hangout() {
         time-=10; //reduce time by 10
@@ -697,6 +716,7 @@ public class Game extends Buttons {
             summaryText = "You decide to take a break and hangout with your friends, enjoying some quality time and fun activities. You can feel your bond strengthening.";
         } else if(stageCount==13){
             summaryText = "You decide to to go on the trip. As you explore new places and create unforgettable memories together, you feel the pressure of exams leaving your body."; 
+            achievement4 = "Explorer";
         } else {
             summaryText = "You decide to take a break from your studies and spend time with your friends.";
         }
@@ -707,9 +727,9 @@ public class Game extends Buttons {
         
         addChoiceUtilities();
         
-    } 
+    }    //rahi
     
-    public void clubActivity(){
+    public void Club(){
         time -= 10; //reduce time by 10
         ftemp = 0.01;
         clubActivity++;
@@ -743,7 +763,7 @@ public class Game extends Buttons {
         
         addChoiceUtilities();
         
-    } 
+    }          //rifah
     
     public void Club(String club) {
         time -= 10; //reduce time by 10
@@ -788,7 +808,7 @@ public class Game extends Buttons {
         
         addChoiceUtilities();
         
-    }
+    }     //rahi
     
     public void extra(){
         time-=10;
@@ -803,18 +823,17 @@ public class Game extends Buttons {
         CGPA+=ftemp;
         
         addChoiceUtilities();
-    }
+    }   //lubaba
    
     //------------------------ H A N D L E R S --------------------------
 
-    
     public class MainScreenHandler implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent event){
             i=0;
             gettingStudentName();
         }
-    }
+    }       //rifah
     
     public class InputHandler implements ActionListener{
         @Override
@@ -824,7 +843,7 @@ public class Game extends Buttons {
             studentName = name;
             stage1_WelcomeStudent();
         }
-    }
+    }       //nujhat
     
     public class ContinueHandler implements ActionListener{
         @Override
@@ -833,7 +852,7 @@ public class Game extends Buttons {
             i=0;
             stage2_Class();
         }
-    }
+    }     //rifah
     
     public class ChoiceHandler implements ActionListener{
         @Override
@@ -857,7 +876,7 @@ public class Game extends Buttons {
                     Club(choice);
                     break;
                 case "clubActivity":
-                    clubActivity();
+                    Club();
                     break;
                 case "cheat":
                     cheat();
@@ -871,7 +890,7 @@ public class Game extends Buttons {
                     break;
             }
         }
-    } //------------- W O R K      H E R E
+    }       //rahi
      
     public class ContinueStoryHandler implements ActionListener{
         @Override
@@ -912,7 +931,7 @@ public class Game extends Buttons {
                     break;
             }
         }
-    } //------------- W O R K      H E R E
+    }   //lubaba
     
     public class EndHandler implements ActionListener{
         @Override
@@ -920,7 +939,7 @@ public class Game extends Buttons {
             mainWindow.dispose();
         }
 
-    }
+    }     //lubaba
 
     //-----------------  B L O C K S   O F   C O D E  ---------------
     
@@ -929,14 +948,14 @@ public class Game extends Buttons {
         choice2.addActionListener(choiceHandler);
         choice3.addActionListener(choiceHandler);
         choice4.addActionListener(choiceHandler);
-    }
+    }   //rahi
     
     public void addChoiceUtilities(){
         summary(summaryText, changes);
         choiceButtonPanel.setVisible(false); //hiding the choice panel
         addContinueStoryButton();
         continueStoryButton.addActionListener(continueStoryHandler);       
-    }
+    }   //lubaba
     
     public void addEndButton(){
         endButtonPanel = new JPanel();
@@ -951,10 +970,10 @@ public class Game extends Buttons {
         endButton.setFocusPainted(false);
         
         endButtonPanel.add(endButton);
+        endButton.addActionListener(endHandler);
         container.add(endButtonPanel);
         mainWindow.getContentPane().add(endButton);
         
-    }
-    
+    }  //lubaba
     
 }
