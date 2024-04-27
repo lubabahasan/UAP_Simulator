@@ -27,7 +27,8 @@ public class Game extends Buttons {
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);      //exits program by closing the window
         mainWindow.getContentPane().setBackground(Color.decode("#280a68")); 
         mainWindow.setLayout(null); 
-        mainWindow.setVisible(true); 
+        mainWindow.setVisible(true);
+        mainWindow.setFocusable(false);
         container = mainWindow.getContentPane(); 
         
         addTitlePanel();       //shows the title
@@ -43,7 +44,7 @@ public class Game extends Buttons {
         setPlayerStat();
         resetStoryPanel();
         this.text = text + "\n" + changes;
-        changes = "";
+        changes = " ";
         setStoryText();
         i = 0;
         timer.start();
@@ -800,6 +801,21 @@ public class Game extends Buttons {
         addChoiceUtilities();
         
     }
+    
+    public void extra(){
+        time-=10;
+        changes = " ";
+        summaryText = " ";
+        
+        //Summary Text
+        summaryText = "You ";
+        
+        //Attribute Changes
+        changes = "CGPA : +"+ftemp;
+        CGPA+=ftemp;
+        
+        addChoiceUtilities();
+    }
    
     //------------------------ H A N D L E R S --------------------------
 
@@ -923,5 +939,6 @@ public class Game extends Buttons {
         addContinueStoryButton();
         continueStoryButton.addActionListener(continueStoryHandler);       
     }
+    
     
 }

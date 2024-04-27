@@ -1,8 +1,13 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
 public class Buttons extends UpdateHandler{
 
@@ -18,6 +23,16 @@ public class Buttons extends UpdateHandler{
         //Adding Labels to Panels, then to container
         startButtonPanel.add(startButton);
         container.add(startButtonPanel);
+        
+        //Binding the enter key to the button
+        KeyStroke enterKey = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false);
+        startButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(enterKey, "clickEnter");
+        startButton.getActionMap().put("clickEnter", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startButton.doClick();
+            }
+        });
     }
     
     //Enter Button
@@ -26,6 +41,17 @@ public class Buttons extends UpdateHandler{
         enter.setForeground(Color.black);
         enter.setFont(buttonFont);
         enter.setFocusPainted(true);
+        enter.setFocusable(true);
+        
+        //Binding the enter key to the button
+        KeyStroke enterKey = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false);
+        enter.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(enterKey, "clickEnter");
+        enter.getActionMap().put("clickEnter", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                enter.doClick();
+            }
+        });
     }
     
     //A single continue button (used once)
@@ -38,6 +64,17 @@ public class Buttons extends UpdateHandler{
         continueButton.setFocusPainted(false);
         continueButtonPanel.add(continueButton);
         container.add(continueButtonPanel);
+        
+        //Binding the enter key to the button
+        KeyStroke enterKey = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false);
+        continueButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(enterKey, "clickEnter");
+        continueButton.getActionMap().put("clickEnter", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                continueButton.doClick();
+            }
+        });
+        
     }
     
     //Choice buttons
