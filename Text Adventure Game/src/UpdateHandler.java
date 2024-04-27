@@ -23,6 +23,8 @@ public class UpdateHandler extends Utilities{
         
         timeValue.setText(""+time);
         attndValue.setText("   "+attendance);
+        if(CGPA<0) CGPA=0;
+        if(CGPA>4) CGPA=4;
         cgpaValue.setText(""+String.format("%.2f", CGPA));
         friendsValue.setText(" "+friend);
         stageValue.setText(" "+stageCount);

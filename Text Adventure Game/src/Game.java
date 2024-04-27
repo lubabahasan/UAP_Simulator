@@ -43,6 +43,7 @@ public class Game extends Buttons {
         setPlayerStat();
         resetStoryPanel();
         this.text = text + "\n" + changes;
+        changes = "";
         setStoryText();
         i = 0;
         timer.start();
@@ -104,10 +105,10 @@ public class Game extends Buttons {
             text = "You enter your first class at UAP. Seems like your teacher isn’t here yet.\nWhat do you want to do?";
         
         } else {
+            continueStoryButtonPanel.setVisible(false);
             resetStoryPanel(); 
             setPlayerStat();
             text = "As the familiar routine of classes resumes, you find yourself once again at a crossroads.\nWhat do you want to do?";
-            //continueStoryButtonPanel.setVisible(false); //Hiding story continue button
         }
         
         setStoryText();
@@ -116,7 +117,6 @@ public class Game extends Buttons {
         //Adding Choice Buttons
         addChoiceButtonPanel();
         choiceButtons();
-        
         
         //Setting up the buttons
             //Attend Button
@@ -131,23 +131,24 @@ public class Game extends Buttons {
             choice3.setText("Hangout With Friends");
             choice3.setActionCommand("hangout");
             
-            addChoiceHandler();
-
-            if(stageCount>4 && club.length()>1){
+            if(stageCount>4 && club.length()>0){
                 //Club Activity
                 choice4.setText("Club Activities");
                 choice4.setActionCommand("clubActivity");
                 choiceButtonPanel.add(choice4);
             }
+            
+            addChoiceHandler();
         
         //Adding buttons to the panel
         choiceButtonPanel.add(choice1);
         choiceButtonPanel.add(choice2);
         choiceButtonPanel.add(choice3);
         
-    }  //------------- W O R K      H E R E
+    }  
     
-    public void stage3(){
+    //Stage 3 : Break
+    public void stage3_Break(){
         continueStoryButtonPanel.setVisible(false); 
         resetStoryPanel();  //resetting story panel
         setPlayerStat();    //updating status bar at the top
@@ -188,9 +189,10 @@ public class Game extends Buttons {
         choiceButtonPanel.add(choice2);
         choiceButtonPanel.add(choice3);
         
-    }  //------------- W O R K      H E R E
+    }
     
-    public void stage4(){
+    //Stage 4 : Club Fair
+    public void stage4_ClubFair(){
         continueStoryButtonPanel.setVisible(false); 
         resetStoryPanel(); 
         setPlayerStat(); 
@@ -216,13 +218,15 @@ public class Game extends Buttons {
             //No Club button
             choice3.setText("None, I'm too busy");
             choice3.setActionCommand("none");
+            
+            addChoiceHandler();
 
         //Adding buttons to panel
         choiceButtonPanel.add(choice1);
         choiceButtonPanel.add(choice2);
         choiceButtonPanel.add(choice3);
         
-    }  //------------- W O R K      H E R E
+    } 
     
     public void stage6(){
         continueStoryButtonPanel.setVisible(false); //Hiding story continue button
@@ -237,18 +241,21 @@ public class Game extends Buttons {
         //Choice Buttons
         addChoiceButtonPanel();
         choiceButtons();
-
-        //Attend the test button
-        choice1.setText("Attend The Test");
-        choice1.setActionCommand("attend");
-
-        //Flunk the test button
-        choice2.setText("Skip The Test");
-        choice2.setActionCommand("skip");
         
-        //Cheat button
-        choice3.setText("Cheat In The Test");
-        choice3.setActionCommand("cheat");
+        //Setting up choices
+            //Attend the test button
+            choice1.setText("Attend The Test");
+            choice1.setActionCommand("attend");
+
+            //Flunk the test button
+            choice2.setText("Skip The Test");
+            choice2.setActionCommand("skip");
+
+            //Cheat button
+            choice3.setText("Cheat In The Test");
+            choice3.setActionCommand("cheat");
+            
+            addChoiceHandler();
 
         //Adding buttons to panel
         choiceButtonPanel.add(choice1);
@@ -315,7 +322,6 @@ public class Game extends Buttons {
                 setStoryText();
                 timer.start();
                 CGPA-=0.5;
-                if(CGPA<0) CGPA=0;
                 addContinueStoryButton();
             } else {
                 text = "Midterms are finally here. What choice will you make?";
@@ -326,7 +332,6 @@ public class Game extends Buttons {
                 setStoryText();
                 timer.start();
                 CGPA-=2.0;
-                if(CGPA<0) CGPA=0;
                 addContinueStoryButton();
             } else {
                 text = "The finals are finally here. How do you plan on proceeding?";
@@ -394,8 +399,8 @@ public class Game extends Buttons {
     public void attend(){
         time-=10;       //reduces time by 10
         attendance++;   //attendance gained
-        study+=0.5;     //study gained
-        ftemp=0.5;      //for CGPA gained
+        study+=0.25;     //study gained
+        ftemp=0.25;      //for CGPA gained
         
         //Summary texts
         switch (stageCount) {
@@ -470,10 +475,13 @@ public class Game extends Buttons {
                 else
                     ftemp = 0.5;
                 changes = "CGPA : -"+String.format("%.2f", ftemp)+"\n";
+                if(CGPA==0)
+                    changes = " ";
                 CGPA-=ftemp;
                 if(CGPA<0) CGPA=0;
                 break;
             default:
+                changes = " ";
                 break;
         }
         
@@ -483,15 +491,15 @@ public class Game extends Buttons {
     
     public void library(){
         time -= 10;   //reduces time by 10
-        ftemp = 0.5;
-        study+=0.5;
+        ftemp = 0.25;
+        study+=0.25;
         
         //Summary Texts
         if(stageCount==6){
             summaryText = "With mid term approaching, you prioritize studying and preparing for your exams to ensure academic success.";
-        } else if(stageCount==11)
+        } else if(stageCount==11){
             summaryText = "With final term approaching, you prioritize studying and preparing for your exams to ensure academic success.";
-      } else {
+        } else {
             summaryText = "You decide to spend the time in the library, looking through academic materials.";
         }
         
@@ -546,18 +554,20 @@ public class Game extends Buttons {
     } //------------- W O R K      H E R E
     
     public void homework() {
-        CGPA+=0.5;  //increase cgpa by 0.5
-        
-        if(CGPA>4) CGPA=4;
+        ftemp = 0.25; 
         study++;
         time -= 10; //reduce time by 10
         
-        summaryText = "You use the break to finish up some homework assignments, determined to stay on top of your studies";
-        changes = "CGPA gained : +0.5";
+        //Summary Text
+        summaryText = "You use the break to finish up some homework assignments, determined to stay on top of your studies.";
+        
+        //Attribute Changes
+        changes = "CGPA : +"+ftemp;
+        CGPA+=ftemp;
         
         addChoiceUtilities();
         
-    } //------------- W O R K      H E R E
+    } 
 
     public void hangout() {
         time-=10; //reduce time by 10
@@ -565,7 +575,7 @@ public class Game extends Buttons {
         
         //Summary Texts
         if(stageCount==2){
-            summaryText = "You decide to hangout with the new friends you have made, wallking around campus exploring the area.";
+            summaryText = "You decide to take advantage of the break to hang out with some new friends you've made on campus.";
         } else {
             summaryText = "You decide to take a break and hangout with your friends, enjoying some quality time and fun activities. You can feel your bond strengthening.";
         }
@@ -573,42 +583,6 @@ public class Game extends Buttons {
         //Attribute Changes
         changes = "Friend : +"+temp;
         friend += temp;
-        
-        addChoiceUtilities();
-        
-    } //------------- W O R K      H E R E
-    
-    public void noClub() {
-        awards+="Nothing Fazes Me";
-        summary("With your schedule already packed, you decide to focus on your academics and forgo joining any clubs.");
-        
-        addChoiceUtilities();
-        
-    } //------------- W O R K      H E R E
-
-    public void mathClub() {
-        club+="Math Club";
-        CGPA-=0.1;
-        if(CGPA<0) CGPA=0;
-        if(CGPA>4) CGPA=4;
-        awards+="Math Enthusiast";
-        time-= 10; //reduce time by 10
-        friend+=ThreadLocalRandom.current().nextInt(1, 2 + 1); //increase friend by a random number between 1 to 2
-        summary("Intrigued by your love for mathematics, you decide to join the Math Club to meet like-minded individuals and participate in math-related activities.");
-        
-        addChoiceUtilities();
-        
-    } //------------- W O R K      H E R E
-
-    public void pccClub() {
-        club+="Programming Contest Club";
-        CGPA-=0.1;
-        if(CGPA<0) CGPA=0;
-        if(CGPA>4) CGPA=4;
-        awards+="Pro-grammer";
-        time-= 10; //reduce time by 10
-        friend+=ThreadLocalRandom.current().nextInt(1, 2 + 1); //increase friend by a random number between 1 to 2
-        summary("With a passion for coding, you eagerly sign up for the Programming Contest Club to sharpen your programming skills and compete in coding competitions.");
         
         addChoiceUtilities();
         
@@ -650,7 +624,42 @@ public class Game extends Buttons {
         
     } //------------- W O R K      H E R E
     
-    
+    public void Club(String club) {
+        time -= 10; //reduce time by 10
+        ftemp = 0.1;
+        temp=ThreadLocalRandom.current().nextInt(1, 2 + 1); //increase friend by a random number between 1 to 2
+        
+        switch(club){
+            case "pcc":
+                this.club = "Programming Contest Club";
+                awards += "Pro-grammer";
+                summaryText = "With a passion for coding, you eagerly sign up for the Programming Contest Club to sharpen your programming skills and compete in coding competitions.";
+                break;
+            case "math":
+                this.club = "Math Club";
+                awards += "Math Enthusiast";
+                summaryText = "Intrigued by your love for mathematics, you decide to join the Math Club to meet like-minded individuals and participate in math-related activities.";
+                break;
+            case "none":
+                awards += "Nothing Fazes Me";
+                summaryText = "With your schedule already packed, you decide to focus on your academics and forgo joining any clubs.";
+                break;
+            default:
+                break;
+        }
+        
+        //Attribute Changes
+        changes = "CGPA : -"+ftemp+"\n";
+        if(CGPA==0)
+            changes = " ";
+        CGPA-=ftemp;
+        changes += "Friend : +"+temp;
+        friend+=temp;
+        
+        addChoiceUtilities();
+        
+    }
+   
     //------------------------ H A N D L E R S --------------------------
 
     
@@ -699,14 +708,8 @@ public class Game extends Buttons {
                 case "hangout":
                     hangout();
                     break;
-                case "none":
-                    noClub();
-                    break;
-                case "math":
-                    mathClub();
-                    break;
-                case "pcc":
-                    pccClub();
+                case "none","math","pcc":
+                    Club(choice);
                     break;
                 case "clubActivity":
                     clubActivity();
@@ -738,31 +741,25 @@ public class Game extends Buttons {
             stageCount++;
             switch(stageCount){
                 case 3, 6, 11:
-                    stage3();
+                    stage3_Break();
                     break;
                 case 4:
-                    stage4();
-                    //stageCount++;
+                    stage4_ClubFair();
                     break;
                 case 5, 10:
                     stage2_Class();
-                    //stageCount++;
                     break;
                 case 7:
                     stage6();
-                    //stageCount++;
                     break;
                 case 8, 12:
                     stage8();
-                    //stageCount++;
                     break;
                 case 9, 14:
                     stage9();
-                    //stageCount++;
                     break;
                 case 13:
                     stage13();
-                    //stageCount++;
                     break;
                 default:
                     break;

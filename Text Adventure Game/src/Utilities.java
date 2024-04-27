@@ -40,7 +40,7 @@ class Utilities extends Student {
     Font titleFont = new Font("Impact", Font.PLAIN, (int)Math.ceil(height/9.6));
     Font buttonFont = new Font("Garamond", Font.PLAIN, (int)Math.ceil(height/28.8));
     Font choiceFont = new Font("Garamond", Font.BOLD, (int)Math.ceil(height/28.8));
-    Font normalFont = new Font("Calisto MT", Font.PLAIN, (int)Math.ceil(height/23));
+    Font normalFont = new Font("Calisto MT", Font.PLAIN, (int)Math.ceil(height/25));
     Font smallNormalFont = new Font("Calisto MT", Font.PLAIN, (int)Math.ceil(height/25.5));
     
     //Timer to delay story appearing character by character
