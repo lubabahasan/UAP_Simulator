@@ -1,12 +1,8 @@
 import java.awt.Color;
-import java.awt.GridLayout;
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
-public class Stages extends Utilities{
+public class UpdateHandler extends Utilities{
     
     //Story text setting
     public void setStoryText(){
@@ -17,6 +13,7 @@ public class Stages extends Utilities{
         storyText.setFont(normalFont);
         storyText.setLineWrap(true);
         storyText.setWrapStyleWord(true);
+        storyText.getCaret().setVisible(false);
         storyPanel.add(storyText);
     }
     
@@ -27,15 +24,12 @@ public class Stages extends Utilities{
         attndValue.setText("   "+attendance);
         cgpaValue.setText(""+String.format("%.2f", CGPA));
         friendsValue.setText(" "+friend);
-        stageValue.setText(" "+contStoryCount);
-        
+        stageValue.setText(" "+stageCount);
         
         container.add(playerStatsPanel);
         container.add(gameStatPanel);
         SwingUtilities.updateComponentTreeUI(mainWindow);
 
     }
-    
-    
     
 }

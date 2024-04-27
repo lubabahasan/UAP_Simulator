@@ -18,7 +18,7 @@ import javax.swing.Timer;
 class Utilities extends Student {
     
     //Used for calculations
-    String text;  int i = 0, contStoryCount = 0;
+    String text = "", summaryText = "", changes = "";  int i = 0, stageCount = 2, temp; double ftemp;
     
     //All the utilities defined
     Container container;
@@ -62,7 +62,7 @@ class Utilities extends Student {
     //Title panel
     public void addTitlePanel(){
         titlePanel = new JPanel();
-        titlePanel.setBounds((int)Math.ceil(width/4.8), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.71), (int)Math.ceil(height/7.2)); //panel resolution
+        titlePanel.setBounds((int)Math.ceil(width/5.1), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.71), (int)Math.ceil(height/7.2)); //panel resolution
         titlePanel.setBackground(Color.decode("#a70c70")); //panel background colour
         
         //title text
@@ -78,7 +78,7 @@ class Utilities extends Student {
     //Start button panel
     public void addStartButtonPanel(){
         startButtonPanel = new JPanel();
-        startButtonPanel.setBounds((int)Math.ceil(width/2.6), (int)Math.ceil(height/2.16), (int)Math.ceil(width/4.9548), (int)Math.ceil(height/7.2));
+        startButtonPanel.setBounds((int)Math.ceil(width/2.7), (int)Math.ceil(height/2.16), (int)Math.ceil(width/4.9548), (int)Math.ceil(height/7.2));
         startButtonPanel.setBackground(Color.decode("#280a68"));
     }
     
@@ -107,7 +107,7 @@ class Utilities extends Student {
         storyPanel.remove(storyText);
         storyPanel.revalidate();
         storyPanel = new JPanel();
-        storyPanel.setBounds((int)Math.ceil(width/7.4), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.3), (int)Math.ceil(height/5));
+        storyPanel.setBounds((int)Math.ceil(width/7.4), (int)Math.ceil(height/4.32), (int)Math.ceil(width/1.3), (int)Math.ceil(height/4.95));
         storyPanel.setBackground(Color.decode("#280a68"));
         container.add(storyPanel);
     }
@@ -131,7 +131,7 @@ class Utilities extends Student {
     //Continue Button Panel
     public void addContinueButtonPanel(){
         continueButtonPanel = new JPanel();
-        continueButtonPanel.setBounds((int)Math.ceil(width/2.6), (int)Math.ceil(height/2.16), (int)Math.ceil(width/4.9548), (int)Math.ceil(height/7.2));
+        continueButtonPanel.setBounds((int)Math.ceil(width/2.6), (int)Math.ceil(height/2.1), (int)Math.ceil(width/4.9548), (int)Math.ceil(height/7.2));
         continueButtonPanel.setBackground(Color.decode("#280a68"));
     }
     
@@ -169,28 +169,28 @@ class Utilities extends Student {
         timeLabel = new JLabel("    Time:");
         timeLabel.setFont(smallNormalFont);
         timeLabel.setForeground(Color.white);
-        timeValue = new JLabel();
+        timeValue = new JLabel("");
         timeValue.setFont(smallNormalFont);
         timeValue.setForeground(Color.white);
         
         attndLabel = new JLabel("Attendance:");
         attndLabel.setFont(smallNormalFont);
         attndLabel.setForeground(Color.white);
-        attndValue = new JLabel();
+        attndValue = new JLabel("");
         attndValue.setFont(smallNormalFont);
         attndValue.setForeground(Color.white);
         
         cgpaLabel = new JLabel("  CGPA:");
         cgpaLabel.setFont(smallNormalFont);
         cgpaLabel.setForeground(Color.white);
-        cgpaValue = new JLabel();
+        cgpaValue = new JLabel("");
         cgpaValue.setFont(smallNormalFont);
         cgpaValue.setForeground(Color.white);
         
         friendsLabel = new JLabel(" Friends:");
         friendsLabel.setFont(smallNormalFont);
         friendsLabel.setForeground(Color.white);
-        friendsValue = new JLabel();
+        friendsValue = new JLabel("");
         friendsValue.setFont(smallNormalFont);
         friendsValue.setForeground(Color.white);
         
@@ -214,6 +214,5 @@ class Utilities extends Student {
         container.add(choiceButtonPanel);
     }
     
-    
-    
+
 }
