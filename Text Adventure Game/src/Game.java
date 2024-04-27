@@ -228,13 +228,13 @@ public class Game extends Buttons {
         
     } 
     
-    public void stage6(){
-        continueStoryButtonPanel.setVisible(false); //Hiding story continue button
-        resetStoryPanel(); //resetting story panel
-        setPlayerStat(); //updating status bar at the top
+    public void stage7_ClassTest(){
+        continueStoryButtonPanel.setVisible(false); 
+        resetStoryPanel(); 
+        setPlayerStat(); 
 
         //Body
-        text = "With midterms approaching, your teacher announces a surprise class test.\nWhat do you want to do?";
+        text = "With midterms approaching, your teacher announces a surprise class test. Your teacher isn't here yet\nWhat do you want to do?";
         setStoryText();
         timer.start();
 
@@ -247,7 +247,7 @@ public class Game extends Buttons {
             choice1.setText("Attend The Test");
             choice1.setActionCommand("attend");
 
-            //Flunk the test button
+            //Skip the test button
             choice2.setText("Skip The Test");
             choice2.setActionCommand("skip");
 
@@ -273,8 +273,14 @@ public class Game extends Buttons {
         if(stageCount<8)
             text = "As the semester progresses, the students of UAP involve themselves in arranging several different events, creating a joyous atmosphere.\nWhat do you plan to do?";
         else
-            text = "As the end of the semester comes close, The Math Club is hosting a math olympiad, while the Programming Contest Club is planning a hackathon. You have been invited to assist in organizing the event, or you can choose to participate. What will you do?";
-
+            text = "As the end of the semester comes close, The Math Club is hosting a math olympiad, while the Programming Contest Club is planning a hackathon.";
+        
+        if(club.length()>1){
+            text += " You have been invited to assist in organizing the event.";
+        } else
+            text += " You have been invited to participate.";
+        text += " What will you do?";
+        
         setStoryText();
         timer.start();
         
@@ -282,27 +288,23 @@ public class Game extends Buttons {
         addChoiceButtonPanel();
         choiceButtons();
 
-        if(club.length()>=1){
-            //Do Club Work
-            choice3.setText("Do Club Work");
-            choice3.setActionCommand("clubActivity");
+        //Setting up choices
             //Study
-            choice4.setText("Study");
-            choice4.setActionCommand("library");
-            choiceButtonPanel.add(choice4);
-        } else {
-            //Study
-            choice3.setText("Study");
+            choice3.setText("Study For Exam");
             choice3.setActionCommand("library");
-        }
 
-        //Participate In The Competitions
-        choice1.setText("Participate In Competitions");
-        choice1.setActionCommand("extraCurr");
+            //Participate In The Competitions
+            choice1.setText("Participate In Competitions");
+            choice1.setActionCommand("extraCurr");
 
-        //Volunteer For The Events
-        choice2.setText("Volunteer For Events");
-        choice2.setActionCommand("clubActivity");
+            //Volunteer For The Events
+            if(club.length()>1)
+                choice2.setText("Do Club Work");
+            else
+                choice2.setText("Volunteer For Events");
+            choice2.setActionCommand("clubActivity");
+
+            addChoiceHandler();
         
         //Adding buttons to panel
         choiceButtonPanel.add(choice1);
@@ -401,6 +403,7 @@ public class Game extends Buttons {
         attendance++;   //attendance gained
         study+=0.25;     //study gained
         ftemp=0.25;      //for CGPA gained
+        changes = " ";
         
         //Summary texts
         switch (stageCount) {
@@ -450,6 +453,7 @@ public class Game extends Buttons {
     
     public void skip(){
         time-=10;  //reduces time by 10
+        changes = " ";
         
         //Summary Texts
         switch (stageCount) {
@@ -493,11 +497,12 @@ public class Game extends Buttons {
         time -= 10;   //reduces time by 10
         ftemp = 0.25;
         study+=0.25;
+        changes = " ";
         
         //Summary Texts
-        if(stageCount==6){
+        if(stageCount==8){
             summaryText = "With mid term approaching, you prioritize studying and preparing for your exams to ensure academic success.";
-        } else if(stageCount==11){
+        } else if (stageCount>8){
             summaryText = "With final term approaching, you prioritize studying and preparing for your exams to ensure academic success.";
         } else {
             summaryText = "You decide to spend the time in the library, looking through academic materials.";
@@ -519,35 +524,87 @@ public class Game extends Buttons {
     } //------------- W O R K      H E R E
   
     public void cheat(){
+        changes = " ";
         time-=10; //reduce time by 10
         attendance++;
-        if(stageCount==7){
-            String temp = "Tempted by the desire to succeed at any cost, you contemplate cheating on your exams to secure a passing grade.";
-            if(attendance<2){
-                temp+=" The invigilator catches you in the process and deducts marks from your paper.";
-            } else if(study>=3){
-                temp+=" Knowing the whereabouts of the course materials helps you with it.";
-            }
-            summary(temp);
-        } else {
-            if(friend>=2){
-                CGPA+=ThreadLocalRandom.current().nextFloat(0.5f, 1 + 1);
-                if(CGPA>4) CGPA=4;
-                summary("Fearing the consequences of failure, you resort to cheating on the test. Your friends help you with it.");
-            } else if(friend<=1 && friend>0){
-                CGPA+=ThreadLocalRandom.current().nextFloat(0, 0.5f + 1);
-                if(CGPA>4) CGPA=4;
-                summary("Fearing the consequences of failure, you resort to cheating on the test. Your friend helps you with it.");
-            } else if(attendance<=1 && study<=1){
-                CGPA+=ThreadLocalRandom.current().nextFloat(0, -0.5f + 1);
-                if(CGPA>4) CGPA=4;
-                summary("Fearing the consequences of failure, you resort to cheating on the test. Alas, the teacher catches you in the process and deducts marks");
-            } else {
-                CGPA+=(attendance*0.2)+(study*0.1);
-                if(CGPA>4) CGPA=4;
-                summary("Fearing the consequences of failure, you resort to cheating on the test. Knowing the whereabouts of the course materials helps you with it.");
-            }
+        achievement2 = "";
+        
+        //Summary Text
+        switch(stageCount){
+            case 7:
+                changes = "Fearing the consequences of failure, you resort to cheating on the test.";
+                break;
+            case 9, 14:
+                changes = "Tempted by the desire to succeed at any cost, you contemplate cheating on your exams to secure a passing grade.";
+                break;
+            default:
+                break;
         }
+        
+        //Attribute Changes and some more texts
+        switch(stageCount){
+            case 7:
+                if(attendance<1 || study<0.25f){
+                    changes += " The invigilator catches you in the process and deducts marks from your paper.";
+                    ftemp = -0.1;
+                } else if(study>0.25f) {
+                    changes += " Knowing the whereabouts of the course materials helps you with it.";
+                    ftemp = (attendance*0.15)+(study*0.15);
+                } else if(friend>7){
+                    changes += " Your friends help you with it.";
+                    achievement2 = "Apes Together Strong";
+                    ftemp = ThreadLocalRandom.current().nextFloat(0, 0.5f + 1);
+                } else {
+                    ftemp = (attendance*0.1)+(study*0.1);
+                }
+                break;
+            case 9:
+                if(study<0.5f){
+                    changes += " The invigilator catches you in the process and deducts marks from your paper.";
+                    ftemp = -0.2;
+                } else if(study>0.5f) {
+                    changes += " Knowing the whereabouts of the course materials helps you with it.";
+                    ftemp = (attendance*0.15)+(study*0.15);
+                } else if(friend>=9){
+                    changes += " Your friends help you with it.";
+                    achievement2 = "Apes Together Strong";
+                    ftemp = ThreadLocalRandom.current().nextFloat(0, 0.5f + 1);
+                } else {
+                    ftemp = (attendance*0.1)+(study*0.1);
+                }
+                break;
+            case 14:
+                if(attendance<1 || study<0.25f){
+                    changes += " The invigilator catches you in the process and deducts marks from your paper.";
+                    ftemp = -0.2;
+                } else if(study>0.25f) {
+                    changes += " Knowing the whereabouts of the course materials helps you with it.";
+                    ftemp = (attendance*0.15)+(study*0.15);
+                } else if(friend>7){
+                    changes += " Your friends help you with it.";
+                    achievement2 = "Apes Together Strong";
+                    ftemp = ThreadLocalRandom.current().nextFloat(0, 0.5f + 1);
+                } else {
+                    ftemp = (attendance*0.1)+(study*0.1);
+                }
+                break;
+            default:
+                break;
+        }
+        
+        //Attribute Changes
+        if(ftemp>0)
+            changes = "CGPA : +"+String.format("%.2f", ftemp)+"\n";
+            if(CGPA>4)
+                changes = " ";
+            CGPA+=ftemp;
+            if(CGPA>4) CGPA = 4;
+        else
+            changes = "CGPA : -"+String.format("%.2f", ftemp)+"\n";
+            if(CGPA<0)
+                changes = " ";
+            CGPA-=ftemp;
+            if(CGPA<0) CGPA = 0;
         
         addChoiceUtilities();
         
@@ -557,6 +614,7 @@ public class Game extends Buttons {
         ftemp = 0.25; 
         study++;
         time -= 10; //reduce time by 10
+        changes = " ";
         
         //Summary Text
         summaryText = "You use the break to finish up some homework assignments, determined to stay on top of your studies.";
@@ -572,6 +630,7 @@ public class Game extends Buttons {
     public void hangout() {
         time-=10; //reduce time by 10
         temp = ThreadLocalRandom.current().nextInt(1, 2 + 1); //increase friend by a random number between 0 to 2
+        changes = " ";
         
         //Summary Texts
         if(stageCount==2){
@@ -589,19 +648,11 @@ public class Game extends Buttons {
     } //------------- W O R K      H E R E
     
     public void clubActivity(){
-        time-= 10; //reduce time by 10
+        time -= 10; //reduce time by 10
+        ftemp = 0.01;
         clubActivity++;
-        CGPA-=0.02;
-        if(CGPA<0) CGPA=0;
-        if(stageCount==6 && club.length()>0){
-            summary("As a member of the "+club+", you help organize and promote the club's events, contributing to its success and growth.");
-        }else if(stageCount==6){
-            summary("You help organize and promote the club events as a volunteer, contributing to their success and growth.");
-        } else if(stageCount==5){
-            summary("Since you've joined the "+club+", you decide to spend your break attending a club meeting and discussing upcoming activities and events.");
-        } else {
-            summary("You continue to participate in club activities during your breaks, enjoying the camaraderie and sense of belonging that comes with being part of the "+club+".");
-        }
+        changes = " ";
+        
         /*switch (clubActivity) {
                 case 1:
                     awards+=", Executive Member";
@@ -620,29 +671,19 @@ public class Game extends Buttons {
                     break;
         }*/
         
-        addChoiceUtilities();
-        
-    } //------------- W O R K      H E R E
-    
-    public void Club(String club) {
-        time -= 10; //reduce time by 10
-        ftemp = 0.1;
-        temp=ThreadLocalRandom.current().nextInt(1, 2 + 1); //increase friend by a random number between 1 to 2
-        
-        switch(club){
-            case "pcc":
-                this.club = "Programming Contest Club";
-                awards += "Pro-grammer";
-                summaryText = "With a passion for coding, you eagerly sign up for the Programming Contest Club to sharpen your programming skills and compete in coding competitions.";
+        //Summary Text
+        switch(stageCount){
+            case 5:
+                summaryText = "Since you've joined the "+club+", you decide to spend your break attending a club meeting and discussing upcoming activities and events.";
                 break;
-            case "math":
-                this.club = "Math Club";
-                awards += "Math Enthusiast";
-                summaryText = "Intrigued by your love for mathematics, you decide to join the Math Club to meet like-minded individuals and participate in math-related activities.";
+            case 6:
+                summaryText = "You continue to participate in club activities during your breaks, enjoying the camaraderie and sense of belonging that comes with being part of the "+club+".";
                 break;
-            case "none":
-                awards += "Nothing Fazes Me";
-                summaryText = "With your schedule already packed, you decide to focus on your academics and forgo joining any clubs.";
+            case 8:
+                if(club.length()>1)
+                    summaryText = "As a member of the "+club+", you help organize and promote the club's events, contributing to its success and growth.";
+                else
+                    summaryText = "You help organize and promote the club events as a volunteer, contributing to their success and growth.";
                 break;
             default:
                 break;
@@ -653,7 +694,49 @@ public class Game extends Buttons {
         if(CGPA==0)
             changes = " ";
         CGPA-=ftemp;
+        
+        addChoiceUtilities();
+        
+    } //------------- W O R K      H E R E
+    
+    public void Club(String club) {
+        time -= 10; //reduce time by 10
+        if(club!="none"){
+            temp=ThreadLocalRandom.current().nextInt(1, 2 + 1); 
+            ftemp = 0.1;
+        } else{
+            temp=0;
+            ftemp = 0;
+        }
+        changes = " ";
+        
+        switch(club){
+            case "pcc":
+                this.club = "Programming Contest Club";
+                achievement1 += "Pro-grammer";
+                summaryText = "With a passion for coding, you eagerly sign up for the Programming Contest Club to sharpen your programming skills and compete in coding competitions.";
+                break;
+            case "math":
+                this.club = "Math Club";
+                achievement1 += "Math Enthusiast";
+                summaryText = "Intrigued by your love for mathematics, you decide to join the Math Club to meet like-minded individuals and participate in math-related activities.";
+                break;
+            case "none":
+                achievement1 += "Nothing Fazes Me";
+                summaryText = "With your schedule already packed, you decide to focus on your academics and forgo joining any clubs.";
+                break;
+            default:
+                break;
+        }
+        
+        //Attribute Changes
+        changes = "CGPA : -"+ftemp+"\n";
+        if(CGPA==0 || ftemp==0)
+            changes = " ";
+        CGPA-=ftemp;
         changes += "Friend : +"+temp;
+        if(temp==0)
+            changes = " ";
         friend+=temp;
         
         addChoiceUtilities();
@@ -750,7 +833,7 @@ public class Game extends Buttons {
                     stage2_Class();
                     break;
                 case 7:
-                    stage6();
+                    stage7_ClassTest();
                     break;
                 case 8, 12:
                     stage8();
