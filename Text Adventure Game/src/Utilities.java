@@ -25,7 +25,9 @@ class Utilities extends Student {
     JFrame mainWindow;
     JPanel titlePanel, startButtonPanel, storyPanel, inputNamePanel, continueButtonPanel;
     JPanel choiceButtonPanel, playerStatsPanel, continueStoryButtonPanel, gameStatPanel;
-    JButton startButton, enter, continueButton, choice1, choice2, choice3, choice4, continueStoryButton;
+    JPanel endButtonPanel;
+    JButton startButton, enter, continueButton, choice1, choice2, choice3, choice4;
+    JButton continueStoryButton, endButton;
     JLabel titleText, timeLabel, timeValue, attndLabel, attndValue, cgpaLabel, cgpaValue, friendsLabel, friendsValue;
     JLabel stageValue, stageLabel;
     JTextArea storyText;

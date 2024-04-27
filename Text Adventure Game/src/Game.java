@@ -1,8 +1,11 @@
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.ThreadLocalRandom;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 public class Game extends Buttons {
@@ -13,6 +16,7 @@ public class Game extends Buttons {
     ContinueHandler continueHandler = new ContinueHandler();
     ChoiceHandler choiceHandler = new ChoiceHandler();
     ContinueStoryHandler continueStoryHandler = new ContinueStoryHandler();
+    EndHandler endHandler = new EndHandler();
     
     //main method
     public static void main(String[] args) {
@@ -26,10 +30,11 @@ public class Game extends Buttons {
         mainWindow.setExtendedState(JFrame.MAXIMIZED_BOTH);             //fullscreen
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);      //exits program by closing the window
         mainWindow.getContentPane().setBackground(Color.decode("#280a68")); 
+        mainWindow.getContentPane().add(endButton); 
         mainWindow.setLayout(null); 
         mainWindow.setVisible(true);
         mainWindow.setFocusable(false);
-        container = mainWindow.getContentPane(); 
+        container = mainWindow.getContentPane();
         
         addTitlePanel();       //shows the title
         addStartButtonPanel(); //shows start button panel
@@ -423,28 +428,14 @@ public class Game extends Buttons {
         setPlayerStat(); 
 
         //Body
-        text = "It's the final stretch of the semester, and you're feeling the pressure. With finals approaching, you must weigh the importance of studying against the opportunity to relax and bond with friends on a road trip.\nWhat will you do?";
+        text = "And with that, the semester comes to and end.";
         setStoryText();
         timer.start();
         
         //Setting up buttons
-            //Choice Buttons
-            addChoiceButtonPanel();
-            choiceButtons();
-
-            //Go on the trip
-            choice1.setText("Go On The Trip");
-            choice1.setActionCommand("hangout");
-
-            //study
-            choice2.setText("Study For The Exam");
-            choice2.setActionCommand("libary");
-
-            addChoiceHandler();
-        
-        //Adding buttons to panel
-        choiceButtonPanel.add(choice1);
-        choiceButtonPanel.add(choice2);
+            addEndButton();
+            endButton.addActionListener(endHandler);
+            
         
     } 
     
@@ -714,24 +705,6 @@ public class Game extends Buttons {
         changes = " ";
         summaryText = " ";
         
-        /*switch (clubActivity) {
-                case 1:
-                    awards+=", Executive Member";
-                    summary("Since you've joined the "+club+", you decide to spend your break attending a club meeting and discussing upcoming activities and events.");
-                    break;
-                case 2:
-                    awards+=", Vice President";
-                    CGPA-=0.1;
-                    summary("You continue to participate in club activities during your breaks, enjoying the camaraderie and sense of belonging that comes with being part of the "+club+".");
-                    break;
-                case 3:
-                    awards+=", President";
-                    CGPA-=0.2;
-                    break;
-                default:
-                    break;
-        }*/
-        
         //Summary Text
         switch(stageCount){
             case 5:
@@ -930,6 +903,14 @@ public class Game extends Buttons {
         }
     } //------------- W O R K      H E R E
     
+    public class EndHandler implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            mainWindow.dispose();
+        }
+
+    }
+
     //-----------------  B L O C K S   O F   C O D E  ---------------
     
     public void addChoiceHandler(){
@@ -944,6 +925,23 @@ public class Game extends Buttons {
         choiceButtonPanel.setVisible(false); //hiding the choice panel
         addContinueStoryButton();
         continueStoryButton.addActionListener(continueStoryHandler);       
+    }
+    
+    public void addEndButton(){
+        endButtonPanel = new JPanel();
+        endButtonPanel.setBounds((int)Math.ceil(width/3.4), (int)Math.ceil(height/2), (int)Math.ceil(width/2.4), (int)Math.ceil(height/4.32));
+        endButtonPanel.setBackground(Color.decode("#280a68"));
+        endButtonPanel.setLayout(new GridLayout(4,1));
+        
+        endButton = new JButton("End Game");
+        endButton.setBackground(Color.decode("#a70c70"));
+        endButton.setForeground(Color.white);
+        endButton.setFont(choiceFont);
+        endButton.setFocusPainted(false);
+        
+        endButtonPanel.add(endButton);
+        container.add(endButtonPanel);
+        
     }
     
     
